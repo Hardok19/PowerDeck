@@ -43,7 +43,7 @@ class Album:
 
         for cards in data["cartas"]:
             actual = Carta(cards["nombre_personaje"], cards["descripcion"], cards["nombre_variante"], cards["es_variante"],
-                           cards["raza"], cards["tipo_carta"], cards["SeleccionCarta"], cards["activa_en_juego"],
+                           cards["raza"], cards["imagen"], cards["tipo_carta"], cards["SeleccionCarta"], cards["activa_en_juego"],
                            cards["activa_en_sobres"], cards["turno_poder"], cards["bonus_poder"], cards["atributos"])
             actual.poder_total = cards["poder_total"]
             actual.llave_identificadora = cards["llave_identificadora"]

@@ -3,9 +3,10 @@ import pygame_gui
 
 import random
 import string
+
+import ImageHandler
 from Carta import Carta
 from Album import Album
-
 pygame.init()
 
 # Definimos algunas constantes
@@ -22,7 +23,27 @@ def crear_ventana_crear_carta():
 
     manager = pygame_gui.UIManager((ANCHO_VENTANA, ALTO_VENTANA))
 
-    # Widgets para ingresar los datos de la carta
+    # Etiquetas de texto (Labels)
+    label_nombre = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 20), (300, 30)),
+                                               text='Nombre del personaje',
+                                               manager=manager)
+    label_descripcion = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 70), (300, 30)),
+                                                    text='Descripción',
+                                                    manager=manager)
+    label_variante = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 120), (300, 30)),
+                                                 text='Variante',
+                                                 manager=manager)
+    label_raza = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 170), (300, 30)),
+                                             text='Raza',
+                                             manager=manager)
+    label_turno_poder = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 220), (300, 30)),
+                                                    text='Turno de poder',
+                                                    manager=manager)
+    label_bonus_poder = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 270), (300, 30)),
+                                                    text='Bonus de poder',
+                                                    manager=manager)
+
+    # Cuadros de entrada de texto (Input fields)
     entrada_nombre = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 50), (300, 30)), manager=manager)
     entrada_descripcion = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 100), (300, 30)), manager=manager)
     entrada_variante = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 150), (300, 30)), manager=manager)
@@ -30,14 +51,18 @@ def crear_ventana_crear_carta():
     entrada_turno_poder = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 250), (300, 30)), manager=manager)
     entrada_bonus_poder = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 300), (300, 30)), manager=manager)
 
-    # Botón para crear la carta
+    # Botones
     boton_crear = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 400), (150, 50)),
                                                text='Crear Carta',
+                                               manager=manager)
+    boton_imagen = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 340), (150, 50)),
+                                               text='Seleccionar imagen',
                                                manager=manager)
 
     # Variables para el bucle del juego
     reloj = pygame.time.Clock()
     ejecutando = True
+    image_path = None
 
     while ejecutando:
         tiempo_delta = reloj.tick(FPS) / 1000.0
@@ -45,32 +70,34 @@ def crear_ventana_crear_carta():
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
+            if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == boton_imagen:
+                image_path = ImageHandler.open_file_dialog()  # Abrir el explorador de archivos
 
-            if evento.type == pygame_gui.UI_BUTTON_PRESSED:
-                if evento.ui_element == boton_crear:
-                    # Obtener los datos del formulario
-                    nombre_personaje = entrada_nombre.get_text()
-                    descripcion = entrada_descripcion.get_text()
-                    nombre_variante = entrada_variante.get_text()
-                    raza = entrada_raza.get_text()
-                    turno_poder = int(entrada_turno_poder.get_text())
-                    bonus_poder = int(entrada_bonus_poder.get_text())
+            if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == boton_crear:
+                # Obtener los datos del formulario
+                nombre_personaje = entrada_nombre.get_text()
+                descripcion = entrada_descripcion.get_text()
+                nombre_variante = entrada_variante.get_text()
+                raza = entrada_raza.get_text()
+                turno_poder = int(entrada_turno_poder.get_text())
+                bonus_poder = int(entrada_bonus_poder.get_text())
 
-                    # Validaciones
-                    if len(nombre_personaje) >= 5 and len(nombre_personaje) <= 30:
-                        nueva_carta = Carta(
-                            nombre_personaje=nombre_personaje,
-                            descripcion=descripcion,
-                            nombre_variante=nombre_variante,
-                            raza=raza,
-                            tipo_carta="Normal",  # Suponemos tipo carta normal por defecto
-                            turno_poder=turno_poder,
-                            bonus_poder=bonus_poder,
-                            atributos={'Poder': 50, 'Velocidad': 40}  # Valores predeterminados
-                        )
+                # Validaciones
+                if len(nombre_personaje) >= 5 and len(nombre_personaje) <= 30:
+                    nueva_carta = Carta(
+                        nombre_personaje=nombre_personaje,
+                        descripcion=descripcion,
+                        nombre_variante=nombre_variante,
+                        raza=raza,
+                        imagen=image_path,  # Ruta de la imagen seleccionada
+                        tipo_carta="Normal",  # Tipo por defecto
+                        turno_poder=turno_poder,
+                        bonus_poder=bonus_poder,
+                        atributos={'Poder': 50, 'Velocidad': 40}  # Valores predeterminados
+                    )
 
-                        CARTAS_CREADAS.append(nueva_carta)
-                        print(f"Carta creada: {nueva_carta}")
+                    CARTAS_CREADAS.append(nueva_carta)
+                    print(f"Carta creada: {nueva_carta}")
 
             manager.process_events(evento)
 
@@ -80,6 +107,8 @@ def crear_ventana_crear_carta():
         manager.draw_ui(pantalla)
 
         pygame.display.update()
+
+
 
 
 # Función para mostrar el álbum de cartas con imágenes
