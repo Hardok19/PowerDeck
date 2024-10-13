@@ -10,8 +10,8 @@ from Album import Album
 pygame.init()
 
 # Definimos algunas constantes
-ANCHO_VENTANA = 800
-ALTO_VENTANA = 600
+ANCHO_VENTANA = 1366
+ALTO_VENTANA = 720
 FPS = 60
 CARTAS_CREADAS = []  # Lista para almacenar las cartas
 
@@ -23,9 +23,15 @@ def crear_ventana_crear_carta():
 
     manager = pygame_gui.UIManager((ANCHO_VENTANA, ALTO_VENTANA))
 
+    # Texto para validaciones
+    label_validacion_nombre = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((350, 50), (500, 30)),
+                                               text='Entre 5 y 30 caracteres',
+                                               manager=manager,
+                                                          )
+
     # Etiquetas de texto (Labels)
     label_nombre = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 20), (300, 30)),
-                                               text='Nombre del personaje',
+                                               text='Nombre de la carta',
                                                manager=manager)
     label_descripcion = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 70), (300, 30)),
                                                     text='Descripción',
@@ -43,7 +49,7 @@ def crear_ventana_crear_carta():
                                                     text='Bonus de poder',
                                                     manager=manager)
 
-    # Cuadros de entrada de texto (Input fields)
+    # Cuadros de entrada de texto
     entrada_nombre = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 50), (300, 30)), manager=manager)
     entrada_descripcion = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 100), (300, 30)), manager=manager)
     entrada_variante = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 150), (300, 30)), manager=manager)
@@ -83,21 +89,28 @@ def crear_ventana_crear_carta():
                 bonus_poder = int(entrada_bonus_poder.get_text())
 
                 # Validaciones
-                if len(nombre_personaje) >= 5 and len(nombre_personaje) <= 30:
+                if ((len(nombre_personaje) >= 5 and len(nombre_personaje) <= 30)
+                and len(descripcion) <= 1000):
                     nueva_carta = Carta(
                         nombre_personaje=nombre_personaje,
                         descripcion=descripcion,
                         nombre_variante=nombre_variante,
+                        es_variante=True,
+                        selecRaza="Ogro",
                         raza=raza,
-                        imagen=image_path,  # Ruta de la imagen seleccionada
+                        imagen=image_path,
                         tipo_carta="Normal",  # Tipo por defecto
                         turno_poder=turno_poder,
                         bonus_poder=bonus_poder,
                         atributos={'Poder': 50, 'Velocidad': 40}  # Valores predeterminados
                     )
-
+                    label_validacion_nombre.set_text("Entre 5 y 30 caracteres")
                     CARTAS_CREADAS.append(nueva_carta)
                     print(f"Carta creada: {nueva_carta}")
+                elif len(nombre_personaje) < 5 or len(nombre_personaje) > 30:
+                    label_validacion_nombre.set_text("El nombre de la carta debe tener entre 5 y 30 caracteres intente de nuevo")
+
+
 
             manager.process_events(evento)
 

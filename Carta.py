@@ -12,8 +12,7 @@ def generar_llave_identificadora():
 # Clase para representar una carta
 class Carta:
     def __init__(self, nombre_personaje, descripcion, nombre_variante, es_variante, raza, imagen, tipo_carta,
-                 selecRaza, activa_en_juego, activa_en_sobres,
-                 turno_poder, bonus_poder, atributos):
+                 selecRaza, turno_poder, bonus_poder, atributos):
         self.nombre_personaje = nombre_personaje
         self.descripcion = descripcion
         self.nombre_variante = nombre_variante
@@ -24,8 +23,8 @@ class Carta:
         self.imagen = "none.jpg"
         self.tipo_carta = tipo_carta
         self.selecRaza = selecRaza
-        self.activa_en_juego = activa_en_juego
-        self.activa_en_sobres = activa_en_sobres
+        self.activa_en_juego = True
+        self.activa_en_sobres = True
         self.turno_poder = turno_poder
         self.bonus_poder = bonus_poder
         self.atributos = atributos
