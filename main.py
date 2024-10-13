@@ -84,44 +84,53 @@ def crear_ventana_crear_carta():
 
 # Función para mostrar el álbum de cartas con imágenes
 def mostrar_album(album):
+    ANCHO_VENTANA = 800
+    ALTO_VENTANA = 600
+    FPS = 60
+
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     pygame.display.set_caption("Álbum de Cartas")
-
-    manager = pygame_gui.UIManager((ANCHO_VENTANA, ALTO_VENTANA))
-
-    # Agregar la barra de desplazamiento
-    scrollbar = pygame_gui.elements.UIVerticalScrollBar(
-        relative_rect=pygame.Rect((ANCHO_VENTANA - 20, 0), (20, ALTO_VENTANA)),
-        visible_percentage=10
-    )
 
     # Coordenadas para colocar el texto y las imágenes
     x_offset = 50
     y_offset = 50
     spacing = 150  # Espacio entre cartas
 
+    # Calcula la altura total requerida para todas las cartas
+    total_altura_cartas = len(album.obtener_cartas()) * spacing + y_offset
+
+    # Tamaño del contenido visible en la ventana y el total que se puede desplazar
+    contenido_visible = ALTO_VENTANA
+    contenido_total = total_altura_cartas if total_altura_cartas > contenido_visible else contenido_visible
+
+    # Inicializa la posición del scrollbar
+    scroll_position = 0
+    scroll_speed = 15  # Velocidad de desplazamiento con flechas
+    scrollbar_altura = max(ALTO_VENTANA * (contenido_visible / contenido_total), 30)  # Tamaño mínimo de la barra
+    scrollbar_pos_x = ANCHO_VENTANA - 20  # X para la barra de desplazamiento
+    scrollbar_width = 15
+
     reloj = pygame.time.Clock()
     ejecutando = True
 
     while ejecutando:
-        tiempo_delta = reloj.tick(FPS) / 1000.0
+        tiempo_delta = reloj.tick(FPS)
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
-
-            manager.process_events(evento)
+            # Manejar el scroll del mouse solo para la barra
+            if evento.type == pygame.MOUSEWHEEL:
+                scroll_increment = -evento.y * album.size  # Cambia el 0.1 para ajustar la sensibilidad del scroll
+                scroll_position += scroll_increment
 
         # Fondo negro
-        pantalla.fill((0, 0, 0))
-
-        # Obtener el valor de la barra de desplazamiento
-        scroll_value = scrollbar.scroll_position
+        pantalla.fill((24, 0, 40))
 
         # Mostrar todas las cartas en el álbum
         for idx, carta in enumerate(album.obtener_cartas()):
             # Calcular la posición en función del valor de la barra de desplazamiento
-            carta_pos = y_offset + (idx * spacing) - scroll_value
+            carta_pos = y_offset + (idx * spacing) - scroll_position
 
             # Mostrar la carta solo si está dentro de la ventana
             if carta_pos > -spacing and carta_pos < ALTO_VENTANA:
@@ -131,18 +140,20 @@ def mostrar_album(album):
                     imagen_carta = pygame.transform.scale(imagen_carta, (100, 150))  # Redimensionar imagen
                     pantalla.blit(imagen_carta, (x_offset, carta_pos))
                 except pygame.error as e:
-                    print(f"Error al cargar la imagen {carta.image}: {e}")
+                    print(f"Error al cargar la imagen {carta.imagen}: {e}")
 
                 # Texto de la carta
                 fuente = pygame.font.SysFont(None, 24)
-                texto = fuente.render(f"{carta.nombre_personaje} - {carta.nombre_variante} - {carta.raza}", True, (255, 255, 255))
+                texto = fuente.render(f"{carta.nombre_personaje} - {carta.nombre_variante} - {carta.raza}", True,
+                                      (255, 255, 255))
                 pantalla.blit(texto, (x_offset + 120, carta_pos + 50))  # Alineación del texto al lado de la imagen
 
-        manager.update(tiempo_delta)
-        manager.draw_ui(pantalla)
+        # Dibuja el scrollbar
+        scrollbar_pos_y = (scroll_position / (contenido_total - contenido_visible)) * (ALTO_VENTANA - scrollbar_altura)
+        pygame.draw.rect(pantalla, (200, 200, 200),
+                         (scrollbar_pos_x, scrollbar_pos_y, scrollbar_width, scrollbar_altura))
 
         pygame.display.update()
-
 
 # Programa principal
 def main():
