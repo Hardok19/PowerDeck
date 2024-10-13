@@ -7,6 +7,8 @@ import string
 import ImageHandler
 from Carta import Carta
 from Album import Album
+from CardDataManager import guardar_cartas_en_json, cargar_cartas_desde_json
+
 pygame.init()
 
 # Definimos algunas constantes
@@ -15,7 +17,8 @@ ALTO_VENTANA = 720
 FPS = 60
 CARTAS_CREADAS = []  # Lista para almacenar las cartas
 
-
+# Cargar las cartas al inicio
+CARTAS_CREADAS = cargar_cartas_desde_json()
 
 def crear_ventana_crear_carta():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
@@ -40,28 +43,39 @@ def crear_ventana_crear_carta():
                                                  text='Variante',
                                                  manager=manager)
     label_raza = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 170), (300, 30)),
-                                             text='Raza',
+                                             text='Nombre Variante',
                                              manager=manager)
-    label_turno_poder = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 220), (300, 30)),
+    label_raza = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 220), (300, 30)),
+                                                    text='Raza',
+                                                    manager=manager)
+    label_turno_poder = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 270), (300, 30)),
                                                     text='Turno de poder',
                                                     manager=manager)
-    label_bonus_poder = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 270), (300, 30)),
+    label_bonus_poder = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 320), (300, 30)),
                                                     text='Bonus de poder',
                                                     manager=manager)
 
     # Cuadros de entrada de texto
     entrada_nombre = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 50), (300, 30)), manager=manager)
     entrada_descripcion = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 100), (300, 30)), manager=manager)
-    entrada_variante = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 150), (300, 30)), manager=manager)
-    entrada_raza = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 200), (300, 30)), manager=manager)
-    entrada_turno_poder = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 250), (300, 30)), manager=manager)
-    entrada_bonus_poder = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 300), (300, 30)), manager=manager)
+    entrada_variante = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((50, 150), (300, 30)),
+                                             starting_option="Si",
+                                             options_list=["Si","No"],
+                                             manager=manager)
+    entrada_nombre_variante = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 200), (300, 30)),
+                                                              manager=manager)
+    entrada_raza = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((50, 250), (300, 30)),
+                                             starting_option="Ogro",
+                                             options_list=["Ogro","Elfo","Goblin"],
+                                             manager=manager)
+    entrada_turno_poder = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 300), (300, 30)), manager=manager)
+    entrada_bonus_poder = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 350), (300, 30)), manager=manager)
 
     # Botones
-    boton_crear = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 400), (150, 50)),
+    boton_crear = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 450), (150, 50)),
                                                text='Crear Carta',
                                                manager=manager)
-    boton_imagen = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 340), (150, 50)),
+    boton_imagen = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 400), (150, 50)),
                                                text='Seleccionar imagen',
                                                manager=manager)
 
@@ -76,6 +90,12 @@ def crear_ventana_crear_carta():
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
+            if evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
+                if evento.ui_element == entrada_variante:
+                    valor_seleccionado_variante = evento.text
+            if evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
+                if evento.ui_element == entrada_raza:
+                    valor_seleccionado_raza = evento.text
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == boton_imagen:
                 image_path = ImageHandler.open_file_dialog()  # Abrir el explorador de archivos
 
@@ -83,8 +103,9 @@ def crear_ventana_crear_carta():
                 # Obtener los datos del formulario
                 nombre_personaje = entrada_nombre.get_text()
                 descripcion = entrada_descripcion.get_text()
-                nombre_variante = entrada_variante.get_text()
-                raza = entrada_raza.get_text()
+                variante =valor_seleccionado_variante
+                nombre_variante = entrada_nombre_variante.get_text()
+                raza = valor_seleccionado_raza
                 turno_poder = int(entrada_turno_poder.get_text())
                 bonus_poder = int(entrada_bonus_poder.get_text())
 
@@ -95,8 +116,8 @@ def crear_ventana_crear_carta():
                         nombre_personaje=nombre_personaje,
                         descripcion=descripcion,
                         nombre_variante=nombre_variante,
-                        es_variante=True,
-                        selecRaza="Ogro",
+                        es_variante=variante,
+                        selecRaza=raza,
                         raza=raza,
                         imagen=image_path,
                         tipo_carta="Normal",  # Tipo por defecto
@@ -104,9 +125,13 @@ def crear_ventana_crear_carta():
                         bonus_poder=bonus_poder,
                         atributos={'Poder': 50, 'Velocidad': 40}  # Valores predeterminados
                     )
+                    #Volver a texto de validación inicial
                     label_validacion_nombre.set_text("Entre 5 y 30 caracteres")
+                    #Guardar cartas
                     CARTAS_CREADAS.append(nueva_carta)
                     print(f"Carta creada: {nueva_carta}")
+                    guardar_cartas_en_json(CARTAS_CREADAS)
+
                 elif len(nombre_personaje) < 5 or len(nombre_personaje) > 30:
                     label_validacion_nombre.set_text("El nombre de la carta debe tener entre 5 y 30 caracteres intente de nuevo")
 
