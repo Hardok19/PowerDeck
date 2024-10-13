@@ -121,7 +121,7 @@ def mostrar_album(album):
                 ejecutando = False
             # Manejar el scroll del mouse solo para la barra
             if evento.type == pygame.MOUSEWHEEL:
-                scroll_increment = -evento.y * album.size  # Cambia el 0.1 para ajustar la sensibilidad del scroll
+                scroll_increment = -evento.y * album.size  
                 scroll_position += scroll_increment
 
         # Fondo negro
