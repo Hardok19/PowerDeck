@@ -1,6 +1,9 @@
 from Carta import Carta
 import json
 jso = json.JSONDecoder()
+
+
+
 class node:
     def __init__(self, Carta):
         self.Carta = Carta
@@ -36,21 +39,18 @@ class Album:
             current_node = current_node.next
         return cartas
 
-
+    # Función para leer el archivo JSON y asignar los atributos a variables
     def getcartascreadas(self):
-        with open('cards.json', 'r') as f:
-            data = json.load(f)
+        from CardDataManager import cargar_cartas_desde_json
+        # Cargar cartas desde el JSON y asignarlas a variables
+        cargar_cartas_desde_json()
+        for l in cargar_cartas_desde_json():
+            self.add(l)
 
-        for cards in data["cartas"]:
-            actual = Carta(cards["nombre_personaje"], cards["descripcion"], cards["nombre_variante"], cards["es_variante"],
-                           cards["raza"], cards["tipo_carta"], cards["SeleccionCarta"], cards["activa_en_juego"],
-                           cards["activa_en_sobres"], cards["turno_poder"], cards["bonus_poder"], cards["atributos"])
-            actual.poder_total = cards["poder_total"]
-            actual.llave_identificadora = cards["llave_identificadora"]
-            actual.fecha_creacion = cards["fecha_creacion"]
-            actual.fecha_modificacion = cards["fecha_modificacion"]
-            self.add(actual)
-        print("")
-
-
-
+    def sorter(self):
+        """Método para ordenar las cartas por el nombre_personaje y nombre_variante"""
+        cartas = self.obtener_cartas()
+        cartas_ordenadas = sorted(cartas, key=lambda carta: (carta.nombre_personaje, carta.nombre_variante))
+        self.head = None
+        for carta in cartas_ordenadas:
+            self.add(carta)
