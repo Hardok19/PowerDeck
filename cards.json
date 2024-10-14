@@ -15,8 +15,8 @@
             "Velocidad": 40
         },
         "Poder total": 90,
-        "fecha de creacion": "2024-10-14 03:26:50.212187",
-        "fecha de modificacion": "2024-10-14 03:26:50.212187"
+        "fecha de creacion": "2024-10-14 14:23:23.089517",
+        "fecha de modificacion": "2024-10-14 14:23:23.089517"
     },
     {
         "nombre_personaje": "Ograso",
@@ -34,8 +34,8 @@
             "Velocidad": 40
         },
         "Poder total": 90,
-        "fecha de creacion": "2024-10-14 03:26:50.213187",
-        "fecha de modificacion": "2024-10-14 03:26:50.213187"
+        "fecha de creacion": "2024-10-14 14:23:23.089517",
+        "fecha de modificacion": "2024-10-14 14:23:23.089517"
     },
     {
         "nombre_personaje": "Elfo Grande",
@@ -53,7 +53,50 @@
             "Velocidad": 40
         },
         "Poder total": 90,
-        "fecha de creacion": "2024-10-14 03:26:50.213187",
-        "fecha de modificacion": "2024-10-14 03:26:50.213187"
+        "fecha de creacion": "2024-10-14 14:23:23.089517",
+        "fecha de modificacion": "2024-10-14 14:23:23.089517"
+    },
+    {
+        "nombre_personaje": "Mago de Azeroth",
+        "descripcion": "Mago legendario",
+        "nombre_variante": "Ninguna",
+        "es_variante": "No",
+        "raza": "Elfo",
+        "Selecci\u00f3n de raza": "Elfo",
+        "imagen": "D:/A Universidad/Semestre 6/Principios/PowerDeck/PowerDeck/none.jpg",
+        "tipo_carta": "Ultra-Rara",
+        "turno_poder": 12,
+        "bonus_poder": 12,
+        "atributos": {
+            "Poder": 12,
+            "Velocidad": 12,
+            "Magia": 12,
+            "Defensa": 12,
+            "Inteligencia": 12,
+            "Altura": 12,
+            "Fuerza": 12,
+            "Agilidad": 1,
+            "Salto": 1,
+            "Resistencia": 1,
+            "Flexibilidad": 1,
+            "Explosividad": 1,
+            "Carisma": 1,
+            "Habilidad": 1,
+            "Balance": 1,
+            "Sabidur\u00eda": 1,
+            "Suerte": 1,
+            "Coordinaci\u00f3n": 1,
+            "Amabilidad": 1,
+            "Lealtad": 1,
+            "Disciplina": 1,
+            "Liderazgo": 1,
+            "Prudencia": 1,
+            "Confianza": 1,
+            "Percepci\u00f3n": 1,
+            "Valent\u00eda": 1
+        },
+        "Poder total": 103,
+        "fecha de creacion": "2024-10-14 14:24:40.657243",
+        "fecha de modificacion": "2024-10-14 14:24:40.657243"
     }
 ]
