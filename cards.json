@@ -3,8 +3,9 @@
         "nombre_personaje": "Ogro Verde",
         "descripcion": "Fuertes",
         "nombre_variante": "Normal",
-        "es_variante": "No",
+        "es_variante": "Si",
         "raza": "Elfo",
+        "Selecci\u00f3n de raza": "",
         "imagen": "none.jpg",
         "tipo_carta": "Normal",
         "turno_poder": 124,
@@ -12,14 +13,18 @@
         "atributos": {
             "Poder": 50,
             "Velocidad": 40
-        }
+        },
+        "Poder total": 90,
+        "fecha de creacion": "2024-10-14 03:26:50.212187",
+        "fecha de modificacion": "2024-10-14 03:26:50.212187"
     },
     {
         "nombre_personaje": "Ograso",
         "descripcion": "Fuertes",
         "nombre_variante": "Normal",
-        "es_variante": "No",
+        "es_variante": "Si",
         "raza": "Elfo",
+        "Selecci\u00f3n de raza": "",
         "imagen": "none.jpg",
         "tipo_carta": "Normal",
         "turno_poder": 124,
@@ -27,14 +32,18 @@
         "atributos": {
             "Poder": 50,
             "Velocidad": 40
-        }
+        },
+        "Poder total": 90,
+        "fecha de creacion": "2024-10-14 03:26:50.213187",
+        "fecha de modificacion": "2024-10-14 03:26:50.213187"
     },
     {
         "nombre_personaje": "Elfo Grande",
         "descripcion": "Elfo oscuro",
-        "nombre_variante": "Verde",
-        "es_variante": "Si",
+        "nombre_variante": "Normal",
+        "es_variante": "No",
         "raza": "Elfo",
+        "Selecci\u00f3n de raza": "",
         "imagen": "none.jpg",
         "tipo_carta": "Normal",
         "turno_poder": 1234,
@@ -42,6 +51,9 @@
         "atributos": {
             "Poder": 50,
             "Velocidad": 40
-        }
+        },
+        "Poder total": 90,
+        "fecha de creacion": "2024-10-14 03:26:50.213187",
+        "fecha de modificacion": "2024-10-14 03:26:50.213187"
     }
 ]
