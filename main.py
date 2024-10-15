@@ -11,6 +11,9 @@ pygame.init()
 ANCHO_VENTANA = 1366
 ALTO_VENTANA = 720
 FPS = 60
+#Manager
+
+manager = pygame_gui.UIManager((ANCHO_VENTANA, ALTO_VENTANA))
 
 # Cargar las cartas al inicio
 CARTAS_CREADAS = CardDataManager.cargar_cartas_desde_json()
@@ -65,7 +68,7 @@ def rangoatributos(atri):
         except ValueError:
             a = 0  # Manejo simple de errores
         if a not in range(-101, 101):
-            print("Valor de atributo inválido (rango de -100 a 100)")
+            mostrar_ventana_advertencia(manager, "Los atributos deeben estar entre -100 y 100")
             return False
     return True
 
@@ -79,10 +82,6 @@ def mostrar_ventana_advertencia(manager, mensaje):
 def crear_ventana_crear_carta():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     pygame.display.set_caption("Crear Carta")
-
-    manager = pygame_gui.UIManager((ANCHO_VENTANA, ALTO_VENTANA))
-
-
 
     # Etiquetas de texto (Labels)
     label_nombre = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 20), (300, 30)),
@@ -192,8 +191,10 @@ def crear_ventana_crear_carta():
                         atributos_ingresados[atributos[i]] = 0  # Manejo simple de errores
 
                 # Validaciones
-                if ((len(nombre_personaje) >= 5 and len(nombre_personaje) <= 30) and
-                        len(descripcion) <= 1000 and rangoatributos(atributo_entries)):
+                if (5>= len(nombre_personaje)<= 30 and
+                        len(descripcion) <= 1000 and
+                        rangoatributos(atributo_entries) and
+                        100>=turno_poder >= 0 and 100 >= bonus_poder >= 0):
                     nueva_carta = Carta(
                         nombre_personaje=nombre_personaje,
                         descripcion=descripcion,
@@ -218,7 +219,12 @@ def crear_ventana_crear_carta():
 
                 elif len(nombre_personaje) < 5 or len(nombre_personaje) > 30:
                     mostrar_ventana_advertencia(manager, "El nombre debe tener entre 5 y 30 caracteres intente de nuevo")
-
+                elif len(descripcion) > 1000:
+                    mostrar_ventana_advertencia(manager,"La descripción no puede tener más de 1000 caracteres")
+                elif turno_poder>100 or turno_poder<0:
+                    mostrar_ventana_advertencia(manager, "El valor de turno de poder debe estar entre 0 y 100")
+                elif bonus_poder>100 or bonus_poder<0:
+                    mostrar_ventana_advertencia(manager, "El valor de bonus de poder debe estar entre 0 y 100")
             manager.process_events(evento)
 
         manager.update(tiempo_delta)

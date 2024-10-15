@@ -15,8 +15,8 @@
             "Velocidad": 40
         },
         "Poder total": 90,
-        "fecha de creacion": "2024-10-14 14:23:23.089517",
-        "fecha de modificacion": "2024-10-14 14:23:23.089517"
+        "fecha de creacion": "2024-10-14 19:29:39.858349",
+        "fecha de modificacion": "2024-10-14 19:29:39.858349"
     },
     {
         "nombre_personaje": "Ograso",
@@ -34,8 +34,8 @@
             "Velocidad": 40
         },
         "Poder total": 90,
-        "fecha de creacion": "2024-10-14 14:23:23.089517",
-        "fecha de modificacion": "2024-10-14 14:23:23.089517"
+        "fecha de creacion": "2024-10-14 19:29:39.859349",
+        "fecha de modificacion": "2024-10-14 19:29:39.859349"
     },
     {
         "nombre_personaje": "Elfo Grande",
@@ -53,8 +53,8 @@
             "Velocidad": 40
         },
         "Poder total": 90,
-        "fecha de creacion": "2024-10-14 14:23:23.089517",
-        "fecha de modificacion": "2024-10-14 14:23:23.089517"
+        "fecha de creacion": "2024-10-14 19:29:39.859349",
+        "fecha de modificacion": "2024-10-14 19:29:39.859349"
     },
     {
         "nombre_personaje": "Mago de Azeroth",
@@ -62,7 +62,7 @@
         "nombre_variante": "Ninguna",
         "es_variante": "No",
         "raza": "Elfo",
-        "Selecci\u00f3n de raza": "Elfo",
+        "Selecci\u00f3n de raza": "",
         "imagen": "D:/A Universidad/Semestre 6/Principios/PowerDeck/PowerDeck/none.jpg",
         "tipo_carta": "Ultra-Rara",
         "turno_poder": 12,
@@ -96,7 +96,7 @@
             "Valent\u00eda": 1
         },
         "Poder total": 103,
-        "fecha de creacion": "2024-10-14 14:24:40.657243",
-        "fecha de modificacion": "2024-10-14 14:24:40.657243"
+        "fecha de creacion": "2024-10-14 19:29:39.859349",
+        "fecha de modificacion": "2024-10-14 19:29:39.859349"
     }
 ]
