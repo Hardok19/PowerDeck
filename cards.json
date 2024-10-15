@@ -1,70 +1,13 @@
 [
     {
-        "nombre_personaje": "Ogro Verde",
-        "descripcion": "Fuertes",
-        "nombre_variante": "Normal",
-        "es_variante": "Si",
-        "raza": "Elfo",
-        "Selecci\u00f3n de raza": "",
-        "imagen": "none.jpg",
-        "tipo_carta": "Normal",
-        "turno_poder": 124,
-        "bonus_poder": 124,
-        "atributos": {
-            "Poder": 50,
-            "Velocidad": 40
-        },
-        "Poder total": 90,
-        "fecha de creacion": "2024-10-14 19:29:39.858349",
-        "fecha de modificacion": "2024-10-14 19:29:39.858349"
-    },
-    {
-        "nombre_personaje": "Ograso",
-        "descripcion": "Fuertes",
-        "nombre_variante": "Normal",
-        "es_variante": "Si",
-        "raza": "Elfo",
-        "Selecci\u00f3n de raza": "",
-        "imagen": "none.jpg",
-        "tipo_carta": "Normal",
-        "turno_poder": 124,
-        "bonus_poder": 124,
-        "atributos": {
-            "Poder": 50,
-            "Velocidad": 40
-        },
-        "Poder total": 90,
-        "fecha de creacion": "2024-10-14 19:29:39.859349",
-        "fecha de modificacion": "2024-10-14 19:29:39.859349"
-    },
-    {
-        "nombre_personaje": "Elfo Grande",
-        "descripcion": "Elfo oscuro",
-        "nombre_variante": "Normal",
-        "es_variante": "No",
-        "raza": "Elfo",
-        "Selecci\u00f3n de raza": "",
-        "imagen": "none.jpg",
-        "tipo_carta": "Normal",
-        "turno_poder": 1234,
-        "bonus_poder": 123,
-        "atributos": {
-            "Poder": 50,
-            "Velocidad": 40
-        },
-        "Poder total": 90,
-        "fecha de creacion": "2024-10-14 19:29:39.859349",
-        "fecha de modificacion": "2024-10-14 19:29:39.859349"
-    },
-    {
-        "nombre_personaje": "Mago de Azeroth",
-        "descripcion": "Mago legendario",
+        "nombre_personaje": "Mago Khadgar",
+        "descripcion": "Poderoso Mago de Azeroth",
         "nombre_variante": "Ninguna",
         "es_variante": "No",
         "raza": "Elfo",
         "Selecci\u00f3n de raza": "",
-        "imagen": "D:/A Universidad/Semestre 6/Principios/PowerDeck/PowerDeck/none.jpg",
-        "tipo_carta": "Ultra-Rara",
+        "imagen": "D:/A Universidad/Semestre 6/Principios/PowerDeck/PowerDeck/Mago.jpg",
+        "tipo_carta": "Muy Rara",
         "turno_poder": 12,
         "bonus_poder": 12,
         "atributos": {
@@ -72,9 +15,9 @@
             "Velocidad": 12,
             "Magia": 12,
             "Defensa": 12,
-            "Inteligencia": 12,
-            "Altura": 12,
-            "Fuerza": 12,
+            "Inteligencia": 1,
+            "Altura": 1,
+            "Fuerza": 1,
             "Agilidad": 1,
             "Salto": 1,
             "Resistencia": 1,
@@ -95,8 +38,8 @@
             "Percepci\u00f3n": 1,
             "Valent\u00eda": 1
         },
-        "Poder total": 103,
-        "fecha de creacion": "2024-10-14 19:29:39.859349",
-        "fecha de modificacion": "2024-10-14 19:29:39.859349"
+        "Poder total": 70,
+        "fecha de creacion": "2024-10-14 20:18:22.875296",
+        "fecha de modificacion": "2024-10-14 20:18:22.875296"
     }
 ]

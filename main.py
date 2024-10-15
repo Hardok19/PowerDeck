@@ -79,6 +79,14 @@ def mostrar_ventana_advertencia(manager, mensaje):
         manager=manager,
         window_title="Advertencia"
     )
+
+def mostrar_ventana_listo(manager):
+    ventana_advertencia = pygame_gui.windows.UIMessageWindow(
+        rect=pygame.Rect((500, 300), (300, 200)),  # Tamaño y posición de la ventana
+        html_message=f'<b>{"Carta creada con exito"}</b>',
+        manager=manager,
+        window_title="Listo"
+)
 def crear_ventana_crear_carta():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     pygame.display.set_caption("Crear Carta")
@@ -172,12 +180,27 @@ def crear_ventana_crear_carta():
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == boton_crear:
                 # Obtener los datos del formulario
                 nombre_personaje = entrada_nombre.get_text()
+                if entrada_nombre=="":
+                    nombre_personaje="Ninguno"
                 descripcion = entrada_descripcion.get_text()
+                if entrada_descripcion=="":
+                    descripcion="Ninguno"
                 variante = valor_seleccionado_variante
                 nombre_variante = entrada_nombre_variante.get_text()
+                if entrada_nombre_variante=="":
+                    nombre_variante="Ninguno"
                 raza = valor_seleccionado_raza
-                turno_poder = int(entrada_turno_poder.get_text())
-                bonus_poder = int(entrada_bonus_poder.get_text())
+
+                if entrada_turno_poder=="":
+                    turno_poder=0
+                else:
+                    turno_poder = int(entrada_turno_poder.get_text())
+                if entrada_bonus_poder == "":
+                    bonus_poder = 0
+                else:
+                    bonus_poder= int(entrada_bonus_poder.get_text())
+
+
                 tipo_carta=valor_seleccionado_tipo
 
                 # Recoger los atributos ingresados
@@ -191,10 +214,9 @@ def crear_ventana_crear_carta():
                         atributos_ingresados[atributos[i]] = 0  # Manejo simple de errores
 
                 # Validaciones
-                if (5>= len(nombre_personaje)<= 30 and
-                        len(descripcion) <= 1000 and
-                        rangoatributos(atributo_entries) and
-                        100>=turno_poder >= 0 and 100 >= bonus_poder >= 0):
+                if ((len(nombre_personaje) >= 5 and len(nombre_personaje) <= 30) and
+                        len(descripcion) <= 1000 and rangoatributos(atributo_entries)
+                        and 100>=turno_poder and 0<=turno_poder and 100>=bonus_poder and 0<=bonus_poder):
                     nueva_carta = Carta(
                         nombre_personaje=nombre_personaje,
                         descripcion=descripcion,
@@ -216,6 +238,9 @@ def crear_ventana_crear_carta():
                     CARTAS_CREADAS.append(nueva_carta)
                     print(f"Carta creada: {nueva_carta}")
                     CardDataManager.guardar_cartas_en_json(CARTAS_CREADAS)
+
+                    #Mostar ventana para notificar el exito en la creacion
+                    mostrar_ventana_listo(manager)
 
                 elif len(nombre_personaje) < 5 or len(nombre_personaje) > 30:
                     mostrar_ventana_advertencia(manager, "El nombre debe tener entre 5 y 30 caracteres intente de nuevo")
