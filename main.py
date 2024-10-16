@@ -191,17 +191,23 @@ def crear_ventana_crear_carta():
                     nombre_variante="Ninguno"
                 raza = valor_seleccionado_raza
 
-                if entrada_turno_poder=="":
-                    turno_poder=0
-                else:
+                try:
                     turno_poder = int(entrada_turno_poder.get_text())
-                if entrada_bonus_poder == "":
+                except:
+                    turno_poder = 0
+                try:
+                    bonus_poder = int(entrada_bonus_poder.get_text())
+                except:
                     bonus_poder = 0
-                else:
-                    bonus_poder= int(entrada_bonus_poder.get_text())
 
 
-                tipo_carta=valor_seleccionado_tipo
+                try:
+                    tipo_carta=valor_seleccionado_tipo
+                except:
+                    tipo_carta = "Basica"
+
+
+
 
                 # Recoger los atributos ingresados
                 atributos_ingresados = {}
