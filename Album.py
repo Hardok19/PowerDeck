@@ -1,6 +1,7 @@
 from Carta import Carta
 import json
 jso = json.JSONDecoder()
+from CardDataManager import leer_cartas_y_guardar_en_variables
 class node:
     def __init__(self, Carta):
         self.Carta = Carta
@@ -36,21 +37,10 @@ class Album:
             current_node = current_node.next
         return cartas
 
-
+    # Función para leer el archivo JSON y asignar los atributos a variables
     def getcartascreadas(self):
-        with open('cards.json', 'r') as f:
-            data = json.load(f)
-
-        for cards in data["cartas"]:
-            actual = Carta(cards["nombre_personaje"], cards["descripcion"], cards["nombre_variante"], cards["es_variante"],
-                           cards["raza"], cards["tipo_carta"], cards["SeleccionCarta"], cards["activa_en_juego"],
-                           cards["activa_en_sobres"], cards["turno_poder"], cards["bonus_poder"], cards["atributos"])
-            actual.poder_total = cards["poder_total"]
-            actual.llave_identificadora = cards["llave_identificadora"]
-            actual.fecha_creacion = cards["fecha_creacion"]
-            actual.fecha_modificacion = cards["fecha_modificacion"]
-            self.add(actual)
-        print("")
+        # Cargar cartas desde el JSON y asignarlas a variables
+        leer_cartas_y_guardar_en_variables()
 
 
 
