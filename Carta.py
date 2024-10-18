@@ -16,11 +16,12 @@ class Carta:
         self.nombre_personaje = nombre_personaje
         self.descripcion = descripcion
         self.nombre_variante = nombre_variante
-        self.es_variante = es_variante
+        if(es_variante == "No"): self.es_variante = "No"
+        else: self.es_variante = "Si"
         self.fecha_creacion = datetime.now()
         self.fecha_modificacion = self.fecha_creacion
         self.raza = raza
-        self.imagen = "none.jpg"
+        self.imagen = imagen
         self.tipo_carta = tipo_carta
         self.selecRaza = selecRaza
         self.activa_en_juego = True
