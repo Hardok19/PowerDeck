@@ -4,7 +4,7 @@ import ImageHandler
 from Album import Album
 from Carta import Carta
 import CardDataManager
-from Cardlogic import svariant
+from Cardlogic import svariant, isvalid, rangoatributos, getatr
 
 pygame.init()
 
@@ -60,30 +60,13 @@ def crear_atributos(manager):
     return atributo_entries, atributos
 
 
-def rangoatributos(atri):
-    for i, entrada_atributo in enumerate(atri):
-        if not entrada_atributo.get_text().isnumeric():
-            mostrar_ventana_advertencia(manager, "Los atributos deben ser un número entre -100 y 100")
-            return False
-
-        a = entrada_atributo.get_text()
-        # Convertir a int o float si es necesario, manejar errores si los hay
-        try:
-            a = int(a)  # o float(valor) si necesitas números decimales
-        except ValueError:
-            a = 0  # Manejo simple de errores
-        if a not in range(-100, 100):
-            mostrar_ventana_advertencia(manager, "Los atributos deben ser un número entre -100 y 100")
-            return False
-    return True
-
 def mostrar_ventana_advertencia(manager, mensaje):
     ventana_advertencia = pygame_gui.windows.UIMessageWindow(
         rect=pygame.Rect((500, 300), (300, 200)),  # Tamaño y posición de la ventana
         html_message=f'<b>{mensaje}</b>',
         manager=manager,
         window_title="Advertencia"
-    )
+)
 
 def mostrar_ventana_listo(manager):
     ventana_advertencia = pygame_gui.windows.UIMessageWindow(
@@ -92,6 +75,7 @@ def mostrar_ventana_listo(manager):
         manager=manager,
         window_title="Listo"
 )
+
 def crear_ventana_crear_carta():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     pygame.display.set_caption("Crear Carta")
@@ -159,6 +143,8 @@ def crear_ventana_crear_carta():
     image_path = None
     valor_seleccionado_variante = 1
     valor_seleccionado_raza = 1
+    valor_seleccionado_tipo = ""
+
 
     while ejecutando:
 
@@ -179,28 +165,18 @@ def crear_ventana_crear_carta():
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == boton_crear:
                 # Obtener los datos del formulario
                 nombre_personaje = entrada_nombre.get_text()
-                if entrada_nombre=="":
-                    nombre_personaje="Ninguno"
                 descripcion = entrada_descripcion.get_text()
-                if entrada_descripcion=="":
-                    descripcion="Ninguno"
-                variante = valor_seleccionado_variante
                 nombre_variante = entrada_nombre_variante.get_text()
-                if entrada_nombre_variante=="":
-                    nombre_variante="Ninguno"
                 raza = valor_seleccionado_raza
 
 
-
+                #define turno_poder y bonus_poder
                 turno_poder = -1
-                if entrada_turno_poder.get_text().isnumeric():
-                    turno_poder = int(entrada_turno_poder.get_text())
-
+                if entrada_turno_poder.get_text().isnumeric(): turno_poder = int(entrada_turno_poder.get_text())
                 bonus_poder = -1
-                if entrada_bonus_poder.get_text().isnumeric():
-                    bonus_poder = int(entrada_bonus_poder.get_text())
+                if entrada_bonus_poder.get_text().isnumeric(): bonus_poder = int(entrada_bonus_poder.get_text())
 
-
+                #define el tipo de carta
                 try:
                     tipo_carta = valor_seleccionado_tipo
                 except:
@@ -210,66 +186,42 @@ def crear_ventana_crear_carta():
 
 
                 # Recoger los atributos ingresados
-                atributos_ingresados = {}
-                for i, entrada_atributo in enumerate(atributo_entries):
-                    valor = entrada_atributo.get_text()
-                    # Convertir a int o float si es necesario, manejar errores si los hay
-                    try:
-                        atributos_ingresados[atributos[i]] = int(valor)  # o float(valor) si necesitas números decimales
-                    except ValueError:
-                        atributos_ingresados[atributos[i]] = 0  # Manejo simple de errores
+                atributos_ingresados = getatr(atributo_entries, atributos)
 
 
-                # Validaciones
-                if ((len(nombre_personaje) >= 5 and len(nombre_personaje) <= 30) and
-                        len(descripcion) <= 1000 and rangoatributos(atributo_entries)
-                        and turno_poder in range(0, 100) and bonus_poder in range(0, 100)):
-                    nueva_carta = Carta(
-                        nombre_personaje=nombre_personaje,
-                        descripcion=descripcion,
-                        nombre_variante=nombre_variante,
-                        selecRaza=raza,
-                        es_variante= svariant(nombre_personaje),
-                        raza=raza,
-                        imagen=image_path,
-                        tipo_carta=tipo_carta,
-                        turno_poder=turno_poder,
-                        bonus_poder=bonus_poder,
-                        atributos=atributos_ingresados  # Asignar atributos ingresados
-                    )
+
+                # Valida si todos las entradas están correctas
+                valid = isvalid(manager, atributo_entries, nombre_personaje, descripcion, turno_poder, bonus_poder)
+                if not valid[0]:
+                    mostrar_ventana_advertencia(manager, valid[1])
+                    continue
 
 
-                    # Guardar cartas
-                    CARTAS_CREADAS.append(nueva_carta)
-                    print(f"Carta creada: {nueva_carta}")
-                    CardDataManager.guardar_cartas_en_json(CARTAS_CREADAS)
-                    #Mostar ventana para notificar el exito en la creacion
-                    mostrar_ventana_listo(manager)
 
+                nueva_carta = Carta(
+                    nombre_personaje=nombre_personaje,
+                    descripcion=descripcion,
+                    nombre_variante=nombre_variante,
+                    selecRaza=raza,
+                    es_variante= svariant(nombre_personaje),
+                    raza=raza,
+                    imagen=image_path,
+                    tipo_carta=tipo_carta,
+                    turno_poder=turno_poder,
+                    bonus_poder=bonus_poder,
+                    atributos=atributos_ingresados  # Asignar atributos ingresados
+                )
 
-                    entrada_nombre.set_text("")
-                    entrada_descripcion.set_text("")
-                    entrada_nombre_variante.set_text("")
-                    entrada_turno_poder.set_text("")
-                    entrada_bonus_poder.set_text("")
+                #Guardar cartas
+                CARTAS_CREADAS.append(nueva_carta)
+                print(f"Carta creada: {nueva_carta}")
+                CardDataManager.guardar_cartas_en_json(CARTAS_CREADAS)
 
-                    # Reinicia los menús desplegables a su opción por defecto
-                    entrada_raza.selected_option = "Ogro"  # Suponiendo que "Ogro" es la opción por defecto
-                    entrada_tipo_carta.selected_option = "Básica"  # Suponiendo que "Básica" es la opción por defecto
+                #Mostar ventana para notificar el exito en la creacion
+                mostrar_ventana_listo(manager)
 
-                    # Reinicia los valores de los atributos
-                    for entrada_atributo in atributo_entries:
-                        entrada_atributo.set_text("")
-
-
-                elif len(nombre_personaje) < 5 or len(nombre_personaje) > 30:
-                    mostrar_ventana_advertencia(manager, "El nombre debe tener entre 5 y 30 caracteres intente de nuevo")
-                elif len(descripcion) > 1000:
-                    mostrar_ventana_advertencia(manager,"La descripción no puede tener más de 1000 caracteres")
-                elif turno_poder > 100 or turno_poder < 0:
-                    mostrar_ventana_advertencia(manager, "El valor de turno de poder debe ser un número entre 0 y 100")
-                elif bonus_poder > 100 or bonus_poder < 0:
-                    mostrar_ventana_advertencia(manager, "El valor de turno de poder debe ser un número entre 0 y 100")
+                ejecutando = False
+                crear_ventana_crear_carta()
 
 
             manager.process_events(evento)
@@ -287,9 +239,6 @@ def mostrar_album(album):
     album.clean()
     album.getcartascreadas()
     album.sorter()  # Ordenar cartas por nombre
-    ANCHO_VENTANA = 800
-    ALTO_VENTANA = 600
-    FPS = 60
     mostrar_variantes = True  # Inicialmente no mostrar variantes
 
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
