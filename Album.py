@@ -57,6 +57,7 @@ class Album:
         self.head = None
         for carta in cartas_ordenadas:
             self.add(carta)
+
     def clean(self):
         self.head = None
 

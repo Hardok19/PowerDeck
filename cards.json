@@ -6,7 +6,7 @@
         "es_variante": "No",
         "raza": "Elfo",
         "Selecci\u00f3n de raza": "",
-        "imagen": "D:/A Universidad/Semestre 6/Principios/PowerDeck/PowerDeck/Mago.jpg",
+        "imagen": "Mago.jpg",
         "tipo_carta": "Muy Rara",
         "turno_poder": 12,
         "bonus_poder": 12,
@@ -39,7 +39,7 @@
             "Valent\u00eda": 1
         },
         "Poder total": 70,
-        "fecha de creacion": "2024-10-14 20:18:22.875296",
-        "fecha de modificacion": "2024-10-14 20:18:22.875296"
+        "fecha de creacion": "2024-10-21 01:07:45.352750",
+        "fecha de modificacion": "2024-10-21 01:07:45.352750"
     }
 ]

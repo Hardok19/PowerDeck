@@ -4,6 +4,7 @@ import ImageHandler
 from Album import Album
 from Carta import Carta
 import CardDataManager
+from Cardlogic import svariant
 
 pygame.init()
 
@@ -11,8 +12,8 @@ pygame.init()
 ANCHO_VENTANA = 1366
 ALTO_VENTANA = 720
 FPS = 60
-#Manager
 
+#Manager
 manager = pygame_gui.UIManager((ANCHO_VENTANA, ALTO_VENTANA))
 
 # Cargar las cartas al inicio
@@ -61,14 +62,18 @@ def crear_atributos(manager):
 
 def rangoatributos(atri):
     for i, entrada_atributo in enumerate(atri):
+        if not entrada_atributo.get_text().isnumeric():
+            mostrar_ventana_advertencia(manager, "Los atributos deben ser un número entre -100 y 100")
+            return False
+
         a = entrada_atributo.get_text()
         # Convertir a int o float si es necesario, manejar errores si los hay
         try:
             a = int(a)  # o float(valor) si necesitas números decimales
         except ValueError:
             a = 0  # Manejo simple de errores
-        if a not in range(-101, 101):
-            mostrar_ventana_advertencia(manager, "Los atributos deeben estar entre -100 y 100")
+        if a not in range(-100, 100):
+            mostrar_ventana_advertencia(manager, "Los atributos deben ser un número entre -100 y 100")
             return False
     return True
 
@@ -98,22 +103,21 @@ def crear_ventana_crear_carta():
     label_descripcion = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 70), (300, 30)),
                                                     text='Descripción',
                                                     manager=manager)
-    label_variante = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 120), (300, 30)),
-                                                 text='Variante',
-                                                 manager=manager)
-    label_nombre_variante = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 170), (300, 30)),
+
+    label_nombre_variante = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 120), (300, 30)),
                                                         text='Nombre Variante',
                                                         manager=manager)
-    label_raza = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 220), (300, 30)),
+
+    label_raza = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 170), (300, 30)),
                                              text='Raza',
                                              manager=manager)
-    label_turno_poder = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 270), (300, 30)),
+    label_turno_poder = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 220), (300, 30)),
                                                     text='Turno de poder',
                                                     manager=manager)
-    label_bonus_poder = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 320), (300, 30)),
+    label_bonus_poder = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 270), (300, 30)),
                                                     text='Bonus de poder',
                                                     manager=manager)
-    label_tipo_carta = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 370), (300, 30)),
+    label_tipo_carta = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((50, 320), (300, 30)),
                                                     text='Tipo de carta',
                                                     manager=manager)
 
@@ -122,21 +126,18 @@ def crear_ventana_crear_carta():
                                                          manager=manager)
     entrada_descripcion = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 100), (300, 30)),
                                                               manager=manager)
-    entrada_variante = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((50, 150), (300, 30)),
-                                                          starting_option="Si",
-                                                          options_list=["Si", "No"],
-                                                          manager=manager)
-    entrada_nombre_variante = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 200), (300, 30)),
+
+    entrada_nombre_variante = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 150), (300, 30)),
                                                                   manager=manager)
-    entrada_raza = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((50, 250), (300, 30)),
+    entrada_raza = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((50, 200), (300, 30)),
                                                       starting_option="Ogro",
                                                       options_list=["Ogro", "Elfo", "Goblin"],
                                                       manager=manager)
-    entrada_turno_poder = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 300), (300, 30)),
+    entrada_turno_poder = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 250), (300, 30)),
                                                               manager=manager)
-    entrada_bonus_poder = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 350), (300, 30)),
+    entrada_bonus_poder = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((50, 300), (300, 30)),
                                                               manager=manager)
-    entrada_tipo_carta = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((50, 400), (300, 30)),
+    entrada_tipo_carta = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((50, 350), (300, 30)),
                                                       starting_option="Básica",
                                                       options_list=["Ultra-Rara","Muy Rara", "Rara", "Normal","Básica"],
                                                       manager=manager)
@@ -160,14 +161,12 @@ def crear_ventana_crear_carta():
     valor_seleccionado_raza = 1
 
     while ejecutando:
+
         tiempo_delta = reloj.tick(FPS) / 1000.0
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
-            if evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
-                if evento.ui_element == entrada_variante:
-                    valor_seleccionado_variante = evento.text
             if evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
                 if evento.ui_element == entrada_raza:
                     valor_seleccionado_raza = evento.text
@@ -191,18 +190,19 @@ def crear_ventana_crear_carta():
                     nombre_variante="Ninguno"
                 raza = valor_seleccionado_raza
 
-                try:
+
+
+                turno_poder = -1
+                if entrada_turno_poder.get_text().isnumeric():
                     turno_poder = int(entrada_turno_poder.get_text())
-                except:
-                    turno_poder = 0
-                try:
+
+                bonus_poder = -1
+                if entrada_bonus_poder.get_text().isnumeric():
                     bonus_poder = int(entrada_bonus_poder.get_text())
-                except:
-                    bonus_poder = 0
 
 
                 try:
-                    tipo_carta=valor_seleccionado_tipo
+                    tipo_carta = valor_seleccionado_tipo
                 except:
                     tipo_carta = "Basica"
 
@@ -219,16 +219,17 @@ def crear_ventana_crear_carta():
                     except ValueError:
                         atributos_ingresados[atributos[i]] = 0  # Manejo simple de errores
 
+
                 # Validaciones
                 if ((len(nombre_personaje) >= 5 and len(nombre_personaje) <= 30) and
                         len(descripcion) <= 1000 and rangoatributos(atributo_entries)
-                        and 100>=turno_poder and 0<=turno_poder and 100>=bonus_poder and 0<=bonus_poder):
+                        and turno_poder in range(0, 100) and bonus_poder in range(0, 100)):
                     nueva_carta = Carta(
                         nombre_personaje=nombre_personaje,
                         descripcion=descripcion,
                         nombre_variante=nombre_variante,
-                        es_variante=variante,
                         selecRaza=raza,
+                        es_variante= svariant(nombre_personaje),
                         raza=raza,
                         imagen=image_path,
                         tipo_carta=tipo_carta,
@@ -236,26 +237,41 @@ def crear_ventana_crear_carta():
                         bonus_poder=bonus_poder,
                         atributos=atributos_ingresados  # Asignar atributos ingresados
                     )
-                    for card in CardDataManager.cargar_cartas_desde_json():
-                        if card.nombre_personaje == nombre_personaje:
-                            nueva_carta.es_variante = "Si"
+
 
                     # Guardar cartas
                     CARTAS_CREADAS.append(nueva_carta)
                     print(f"Carta creada: {nueva_carta}")
                     CardDataManager.guardar_cartas_en_json(CARTAS_CREADAS)
-
                     #Mostar ventana para notificar el exito en la creacion
                     mostrar_ventana_listo(manager)
+
+
+                    entrada_nombre.set_text("")
+                    entrada_descripcion.set_text("")
+                    entrada_nombre_variante.set_text("")
+                    entrada_turno_poder.set_text("")
+                    entrada_bonus_poder.set_text("")
+
+                    # Reinicia los menús desplegables a su opción por defecto
+                    entrada_raza.selected_option = "Ogro"  # Suponiendo que "Ogro" es la opción por defecto
+                    entrada_tipo_carta.selected_option = "Básica"  # Suponiendo que "Básica" es la opción por defecto
+
+                    # Reinicia los valores de los atributos
+                    for entrada_atributo in atributo_entries:
+                        entrada_atributo.set_text("")
+
 
                 elif len(nombre_personaje) < 5 or len(nombre_personaje) > 30:
                     mostrar_ventana_advertencia(manager, "El nombre debe tener entre 5 y 30 caracteres intente de nuevo")
                 elif len(descripcion) > 1000:
                     mostrar_ventana_advertencia(manager,"La descripción no puede tener más de 1000 caracteres")
-                elif turno_poder>100 or turno_poder<0:
-                    mostrar_ventana_advertencia(manager, "El valor de turno de poder debe estar entre 0 y 100")
-                elif bonus_poder>100 or bonus_poder<0:
-                    mostrar_ventana_advertencia(manager, "El valor de bonus de poder debe estar entre 0 y 100")
+                elif turno_poder > 100 or turno_poder < 0:
+                    mostrar_ventana_advertencia(manager, "El valor de turno de poder debe ser un número entre 0 y 100")
+                elif bonus_poder > 100 or bonus_poder < 0:
+                    mostrar_ventana_advertencia(manager, "El valor de turno de poder debe ser un número entre 0 y 100")
+
+
             manager.process_events(evento)
 
         manager.update(tiempo_delta)

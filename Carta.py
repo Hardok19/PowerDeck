@@ -2,6 +2,7 @@ from datetime import datetime
 import random
 import string
 
+
 # Función para generar una llave única
 def generar_llave_identificadora():
     identificador_carta = ''.join(random.choices(string.ascii_uppercase + string.digits, k=12))
@@ -16,8 +17,7 @@ class Carta:
         self.nombre_personaje = nombre_personaje
         self.descripcion = descripcion
         self.nombre_variante = nombre_variante
-        if(es_variante == "No"): self.es_variante = "No"
-        else: self.es_variante = "Si"
+        self.es_variante = es_variante
         self.fecha_creacion = datetime.now()
         self.fecha_modificacion = self.fecha_creacion
         self.raza = raza
@@ -31,6 +31,8 @@ class Carta:
         self.atributos = atributos
         self.poder_total = sum(self.atributos.values())
         self.llave_identificadora = generar_llave_identificadora()
+
+
 
 
     def __repr__(self):
