@@ -25,7 +25,7 @@ manager = pygame_gui.UIManager((ANCHO_VENTANA, ALTO_VENTANA))
 # Cargar las cartas al inicio
 CARTAS_CREADAS = CardDataManager.cargar_cartas_desde_json()
 album = Album()
-players = [["Hardok", "Hardok", "Costa Rica", "Hardok", "Hardok", album, [("Principal", album)]]]
+players = [["Hardok", "Hardok", "Costa Rica", "Hardok", "Hardok", album, [("Principal", album), ("Principal", album), ("Principal", album), ("Principal", album), ("Principal", album)]]]
 
 def crear_atributos(manager):
     atributos = ['Poder', 'Velocidad', 'Magia', 'Defensa', 'Inteligencia', 'Altura',
@@ -245,8 +245,6 @@ def crear_ventana_crear_carta():
 
 # Función para mostrar el álbum de cartas con imágenes, con botón de alternar variantes
 def mostrar_album(album):
-    album.clean()
-    album.getcartascreadas()
     album.sorter()  # Ordenar cartas por nombre
     mostrar_variantes = True  # Inicialmente no mostrar variantes
 
@@ -409,6 +407,8 @@ def admenu():
                 if evento.ui_element == boton_crear_carta:
                     crear_ventana_crear_carta()
                 elif evento.ui_element == boton_ver_album:
+                    album.clean()
+                    album.getcartascreadas()
                     mostrar_album(album)
 
             manager.process_events(evento)
@@ -420,10 +420,10 @@ def admenu():
 
         pygame.display.update()
 
-def playermenu(player):
+def playermenu(player, indexP):
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
 
-    vermazos = pygame_gui.elements.UIButton(
+    mazos = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect(508, 200, 350, 100),
         text='Ver Mazos',
         manager=manager
@@ -444,9 +444,15 @@ def playermenu(player):
                 ejecutando = False
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == crearmazo:
                 manager.clear_and_reset()
-                nuevomazo(player[5], max_seleccion=4)
+                nuevomazo(player[5], indexP, max_seleccion=4)
                 ejecutando = False
-                playermenu(player)
+                playermenu(player, indexP)
+            if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == mazos:
+                manager.clear_and_reset()
+                vermazos(indexP)
+                ejecutando = False
+                playermenu(player, indexP)
+
 
             manager.process_events(evento)
 
@@ -636,10 +642,12 @@ def loguear():
                     continue
                 password = entrycontra.get_text()
                 user = entryname.get_text()
+                i = 0
                 for player in players:
+                    i += 1
                     if player[0] == user or player[4] == user and player[4] == password:
                         manager.clear_and_reset()
-                        playermenu(player)
+                        playermenu(player, i)
                         ejecutando = False
                         begin()
                 mostrar_ventana_advertencia(manager, "Información incorrecta")
@@ -755,11 +763,9 @@ def mostrar_cardsforuser(playeralbum):
         pygame.display.flip()
 
 # Función para mostrar el álbum de cartas con imágenes, con botón de alternar variantes y selección múltiple
-def nuevomazo(playeralbum, max_seleccion=4):
-    print(playeralbum.obtener_cartas(), "AAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+def nuevomazo(playeralbum, indexP, max_seleccion=4 ):
     playeralbum.sorter()  # Ordenar cartas por nombre
     mostrar_variantes = True
-
 
 
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
@@ -847,6 +853,32 @@ def nuevomazo(playeralbum, max_seleccion=4):
                         elif len(cartas_seleccionadas) < max_seleccion:
                             cartas_seleccionadas.append(carta)  # Seleccionar
                         break
+            if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == addmazo:
+                print(len(cartas_seleccionadas))
+                continuar = True
+                if not len(cartas_seleccionadas) == 4:
+                    mostrar_ventana_advertencia(manager, "seleccione 4 cartas")
+                    continue
+                for al in players[indexP - 1][6]:
+                    print(al[0])
+                    if al[0] == entrada_nombre.get_text():
+                        mostrar_ventana_advertencia(manager, "Un mazo con ese nombre ya existe en tus mazos")
+                        continuar = False
+                    if entrada_nombre.get_text() == "":
+                        mostrar_ventana_advertencia(manager, "Ingrese un nombre para el mazo")
+                        continuar = False
+
+                if not continuar: continue
+                temp = playerAlbum()
+
+                for card in cartas_seleccionadas:
+                    temp.add(card)
+                players[indexP - 1][6].append((entrada_nombre.get_text(), temp))
+                print("Mazo agregado correctamente")
+                ejecutando = False
+                manager.clear_and_reset()
+                nuevomazo(playeralbum, indexP, max_seleccion=4)
+
 
             # Scroll con rueda del mouse
             if evento.type == pygame.MOUSEWHEEL:
@@ -893,7 +925,46 @@ def nuevomazo(playeralbum, max_seleccion=4):
         manager.draw_ui(pantalla)
         pygame.display.update()
     manager.clear_and_reset()
-    return cartas_seleccionadas
+
+# Función vermazos
+def vermazos(indexP):
+    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+    player = players[indexP - 1]
+    font = pygame.font.Font(None, 36)
+    reloj = pygame.time.Clock()
+    ejecutando = True
+
+    # Obtiene la lista de álbumes en la posición 6 del jugador
+    albumes = player[6]  # Suponiendo que player[6] es una lista de tuplas (nombre, Album)
+
+    while ejecutando:
+        pantalla.fill((30, 30, 30))  # Fondo gris oscuro
+
+        # Eventos
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                ejecutando = False
+            elif evento.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                for i, (nombre, album) in enumerate(albumes):
+                    rect = pygame.Rect(50, 50 + i * 40, 200, 30)  # Calcula la posición del botón
+                    if rect.collidepoint(mouse_pos):
+                        mostrar_album(album)  # Llama a mostrar_album con el álbum seleccionado
+
+        # Dibuja los nombres de los álbumes
+        for i, (nombre, album) in enumerate(albumes):
+            if album.albumvalid: valid = "Válido"
+            else: valid = "Inválido"
+            texto = font.render(nombre, True, (255, 255, 255))
+            valido = font.render(valid, True, (255, 255, 255))
+            rect = pygame.Rect(50, 50 + i * 40, 200, 30)
+            pygame.draw.rect(pantalla, (70, 70, 200), rect)  # Botón
+            pantalla.blit(texto, (rect.x + 10, rect.y + 5))  # Dibuja el texto en el botón
+            pantalla.blit(valido, (rect.x + 200, rect.y + 5))  # Dibuja el texto en el botón
+
+        pygame.display.flip()
+        reloj.tick(FPS)
+
 
 #Programa principal
 def main():

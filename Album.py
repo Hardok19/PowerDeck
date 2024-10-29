@@ -76,7 +76,13 @@ class Album:
             current = current.next
             i += 1
         return
-
+    def albumvalid(self):
+        current = self.head
+        i = 0
+        while i > self.size:
+            if not current.Carta.activa_en_juego:
+                return False
+        return True
 
 class playerAlbum(Album):
     def __init__(self):
@@ -84,3 +90,4 @@ class playerAlbum(Album):
 
     def getcartascreadas(self):
         pass
+
