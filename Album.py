@@ -13,7 +13,7 @@ class node:
 
 
 class Album:
-    def __init__(self, ):
+    def __init__(self):
         self.size = 0
         self.head = None
         self.getcartascreadas()
@@ -47,7 +47,6 @@ class Album:
         # Cargar cartas desde el JSON y asignarlas a variables
         cargar_cartas_desde_json()
         for l in cargar_cartas_desde_json():
-            print(l)
             self.add(l)
 
     def sorter(self):
@@ -61,4 +60,34 @@ class Album:
     def clean(self):
         self.head = None
 
+    def getcard(self, posicion):
+        current = self.head
+        i = 1
+        if posicion > self.size:
+            print("Posicion mayor que el tamaño del album")
+            return
+        if posicion < 1:
+            print("La posicion debe ser 1 o mayor")
+            return
+
+        while i <= posicion:
+            if i == posicion:
+                return current.Carta
+            current = current.next
+            i += 1
+        return
+    def albumvalid(self):
+        current = self.head
+        i = 0
+        while i > self.size:
+            if not current.Carta.activa_en_juego:
+                return False
+        return True
+
+class playerAlbum(Album):
+    def __init__(self):
+        super().__init__()
+
+    def getcartascreadas(self):
+        pass
 

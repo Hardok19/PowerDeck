@@ -62,3 +62,4 @@ def svariant(nombrecarta):
             return False
     return True
 
+
