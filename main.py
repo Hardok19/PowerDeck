@@ -131,6 +131,7 @@ def newUser():
                     country = evento.text
 
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == registrarse:
+                print(album.obtener_cartas())
                 tempplayer = addplayer(entryname.get_text(), entryAlias.get_text(), country, entrycorreo.get_text(), entrycontra.get_text(), album)
                 if not tempplayer[0]:
                     mostrar_ventana_advertencia(manager, tempplayer[2])
@@ -207,6 +208,11 @@ def loguear():
                 i = 0
                 for player in players:
                     i += 1
+                    if user == "admin" and password == "admin":
+                        manager.clear_and_reset()
+                        admenu(manager, album, CARTAS_CREADAS)
+                        ejecutando = False
+                        begin()
                     if player[0] == user or player[4] == user and player[4] == password:
                         manager.clear_and_reset()
                         playermenu(player, i, manager, players)
@@ -232,6 +238,7 @@ def loguear():
 #Programa principal
 def main():
     pygame.display.set_caption("Sistema de Gestión de Cartas")
+    #admenu(manager, album, CARTAS_CREADAS)
     begin()
     pygame.quit()
 

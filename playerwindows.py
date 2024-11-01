@@ -15,25 +15,25 @@ def addplayer(name, alias, pais, correo, contra, album):
     mensaje = ""
     i = 0
     result = True
-
+    dar = True
     patron = r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$'
 
     if pais == "":
         mensaje = "Debe seleccionar su país"
-        i = 5
+        dar = False
         result = False
     if correo == "" or contra == "":
         mensaje = "Se deben llenar todos los campos requeridos"
-        i = 5
+        dar = False
         result = False
 
     if not len(name) in range(4, 12) or not len(alias) in range(4, 12):
         mensaje = "El nombre y alias deben estar entre 4 y 12 carácteres"
-        i = 5
+        dar = False
         result = False
     if not re.match(patron, correo):
         mensaje = "Inserte un email válido"
-        i = 5
+        dar = False
         result = False
 
     albumplayer = playerAlbum()
@@ -41,9 +41,10 @@ def addplayer(name, alias, pais, correo, contra, album):
 
 
     yaregistrados = []
-    while i < 4:
+    while i < 5 and dar:
         continuar = True
         o = random.randint(1, album.size)
+        if o == album.size + 1: continuar = False
         if album.getcard(o).es_variante == "Si":
             yaregistrados.append(o)
             continuar = False

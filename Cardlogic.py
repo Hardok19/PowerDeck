@@ -33,7 +33,7 @@ def Ncard():
     print("a")
 
 
-def isvalid(atributo_entries, nombre_personaje, descripcion, turno_poder, bonus_poder):
+def isvalid(manager, atributo_entries, nombre_personaje, descripcion, turno_poder, bonus_poder):
     mensaje = ""
     if not (len(nombre_personaje)) in range(5, 30):
         mensaje = "El nombre debe tener entre 5 y 30 caracteres intente de nuevo"

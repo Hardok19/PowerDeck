@@ -125,6 +125,7 @@ def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
+                manager.clear_and_reset()
             if evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
                 if evento.ui_element == entrada_raza:
                     valor_seleccionado_raza = evento.text
@@ -224,10 +225,13 @@ def admenu(manager, album, CARTAS_CREADAS):
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
-
+                manager.clear_and_reset()
             if evento.type == pygame_gui.UI_BUTTON_PRESSED:
                 if evento.ui_element == boton_crear_carta:
+                    manager.clear_and_reset()
                     crear_ventana_crear_carta(manager, CARTAS_CREADAS)
+                    ejecutando = False
+                    admenu(manager, album, CARTAS_CREADAS)
                 elif evento.ui_element == boton_ver_album:
                     album.clean()
                     album.getcartascreadas()
