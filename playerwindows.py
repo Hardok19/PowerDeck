@@ -10,6 +10,7 @@ from Gwindows import mostrar_ventana_advertencia, mostrar_album
 ANCHO_VENTANA = 1366
 ALTO_VENTANA = 720
 FPS = 60
+cantidad_cartas=3
 
 def addplayer(name, alias, pais, correo, contra, album):
     mensaje = ""
@@ -41,7 +42,7 @@ def addplayer(name, alias, pais, correo, contra, album):
 
 
     yaregistrados = []
-    while i < 5 and dar:
+    while i < cantidad_cartas and dar:
         continuar = True
         o = random.randint(1, album.size)
         if o == album.size + 1: continuar = False
@@ -85,7 +86,7 @@ def playermenu(player, indexP, manager, players):
                 ejecutando = False
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == crearmazo:
                 manager.clear_and_reset()
-                players = nuevomazo(player[5], indexP, manager, players, max_seleccion=4)
+                players = nuevomazo(player[5], indexP, manager, players, max_seleccion=cantidad_cartas)
                 ejecutando = False
                 playermenu(player, indexP, manager, players)
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == mazos:
@@ -112,7 +113,7 @@ def mostrar_cardsforuser(playeralbum, manager):
     pantalla = pygame.display.set_mode((1000, 600))
     font = pygame.font.SysFont(None, 20)
     font2 = pygame.font.SysFont(None, 35)
-    asignadas = font2.render("Se te han asignado estas 4 cartas", True, (100, 100, 255))
+    asignadas = font2.render(f"Se te han asignado estas {str(cantidad_cartas)} cartas", True, (100, 100, 255))
 
     imagen_ancho = 100
     imagen_alto = 150
@@ -141,7 +142,7 @@ def mostrar_cardsforuser(playeralbum, manager):
         cartax = 200
 
         # Display the cards
-        for i in range(1, 5):
+        for i in range(1, cantidad_cartas+1):
             carta = playeralbum.getcard(i)
             try:
                 imagen_carta = pygame.image.load(carta.imagen)
@@ -158,7 +159,7 @@ def mostrar_cardsforuser(playeralbum, manager):
         pygame.display.flip()
 
 # Función para mostrar el álbum de cartas con imágenes, con botón de alternar variantes y selección múltiple
-def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=4):
+def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cartas):
     playeralbum.sorter()  # Ordenar cartas por nombre
     mostrar_variantes = True
 
@@ -252,8 +253,8 @@ def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=4):
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == addmazo:
                 print(len(cartas_seleccionadas))
                 continuar = True
-                if not len(cartas_seleccionadas) == 4:
-                    mostrar_ventana_advertencia(manager, "seleccione 4 cartas")
+                if not len(cartas_seleccionadas) == cantidad_cartas:
+                    mostrar_ventana_advertencia(manager, f"seleccione {cantidad_cartas} cartas")
                     continue
                 for al in players[indexP - 1][6]:
                     print(al[0])
@@ -271,7 +272,7 @@ def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=4):
                 print("Mazo agregado correctamente")
                 ejecutando = False
                 manager.clear_and_reset()
-                nuevomazo(playeralbum, indexP, manager, players, max_seleccion=4)
+                nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cartas)
 
 
             # Scroll con rueda del mouse

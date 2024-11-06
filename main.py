@@ -106,6 +106,7 @@ def newUser():
 
     entrycontra = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((798, 310), (300, 30)),
                                                          manager=manager)
+    entrycontra.set_text_hidden()
 
     registrarse = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect(825, 550, 250, 50),
@@ -182,6 +183,7 @@ def loguear():
 
     entrycontra = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((533, 400), (300, 30)),
                                                          manager=manager)
+    entrycontra.set_text_hidden()
     Login = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect(558, 500, 250, 50),
         text='Login',
