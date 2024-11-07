@@ -1,7 +1,8 @@
 import CardDataManager
 
-
+# Función para verificar que los valores de atributos estén en el rango permitido
 def rangoatributos(atri):
+    """Verifica si todos los valores en la lista de atributos están en el rango de -100 a 100. """
     for i, entrada_atributo in enumerate(atri):
         if not entrada_atributo.get_text().isnumeric():
             return False
@@ -17,6 +18,7 @@ def rangoatributos(atri):
             return False
     return True
 
+# Función para obtener los atributos ingresados y convertirlos en un diccionario
 def getatr(atributo_entries, atributos):
     result = {}
     for i, entrada_atributo in enumerate(atributo_entries):
@@ -32,7 +34,7 @@ def getatr(atributo_entries, atributos):
 def Ncard():
     print("a")
 
-
+#Verifica si los datos de la carta son válidos según las restricciones de longitud y rango.
 def isvalid(manager, atributo_entries, nombre_personaje, descripcion, turno_poder, bonus_poder):
     mensaje = ""
     if not (len(nombre_personaje)) in range(5, 30):
@@ -54,8 +56,9 @@ def isvalid(manager, atributo_entries, nombre_personaje, descripcion, turno_pode
 
 
 
-
+# Función para verificar si una carta ya existe en el sistema
 def svariant(nombrecarta):
+    #Verifica si una carta ya existe en el sistema al compararla con el nombre de cartas cargadas.
     cartas = CardDataManager.cargar_cartas_desde_json()
     for cartaexiste in cartas:
         if cartaexiste == nombrecarta:

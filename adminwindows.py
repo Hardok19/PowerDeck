@@ -16,7 +16,7 @@ FPS = 60
 
 
 
-
+# Función para crear las entradas de atributos en la interfaz de usuario
 def crear_atributos(manager):
     atributos = ['Poder', 'Velocidad', 'Magia', 'Defensa', 'Inteligencia', 'Altura',
                  'Fuerza', 'Agilidad', 'Salto', 'Resistencia', 'Flexibilidad',
@@ -28,7 +28,7 @@ def crear_atributos(manager):
     mitad = num_atributos // 2
     atributo_entries = []
 
-    # Primera mitad
+    # Primera mitad de los atributos en la columna izquierda
     for i in range(mitad):
         pygame_gui.elements.UILabel(relative_rect=pygame.Rect((400, 20 + i * 40), (200, 30)),
                                     text=atributos[i],
@@ -39,7 +39,7 @@ def crear_atributos(manager):
             atributo_entries.append(0)
             continue
         atributo_entries.append(entrada_atributo)
-    # Segunda mitad (más a la derecha)
+    # Segunda mitad de los atributos en la columna derecha
     for i in range(mitad, num_atributos):
         pygame_gui.elements.UILabel(relative_rect=pygame.Rect((800, 20 + (i - mitad) * 40), (200, 30)),
                                     text=atributos[i],
@@ -53,6 +53,7 @@ def crear_atributos(manager):
         atributo_entries.append(entrada_atributo)
 
     return atributo_entries, atributos
+# Función para crear la ventana de creación de cartas
 def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     pygame.display.set_caption("Crear Carta")
@@ -205,6 +206,7 @@ def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
 
         pygame.display.update()
 
+#Función para el menú de administración
 def admenu(manager, album, CARTAS_CREADAS):
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     # Botones para las diferentes funcionalidades

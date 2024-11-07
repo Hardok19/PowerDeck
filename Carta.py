@@ -32,9 +32,7 @@ class Carta:
         self.poder_total = sum(self.atributos.values())
         self.llave_identificadora = generar_llave_identificadora()
 
-
-
-
+    # Representación en texto de la carta
     def __repr__(self):
         return f"Personaje: {self.nombre_personaje} - Variante: {self.nombre_variante} - Raza: {self.raza}"
 

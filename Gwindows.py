@@ -7,7 +7,7 @@ ANCHO_VENTANA = 1366
 ALTO_VENTANA = 720
 FPS = 60
 
-
+# Función para mostrar una ventana de advertencia con un mensaje personalizado
 def mostrar_ventana_advertencia(manager, mensaje):
     ventana_advertencia = pygame_gui.windows.UIMessageWindow(
         rect=pygame.Rect((500, 300), (300, 200)),  # Tamaño y posición de la ventana
@@ -16,6 +16,7 @@ def mostrar_ventana_advertencia(manager, mensaje):
         window_title="Advertencia"
 )
 
+# Función para mostrar una ventana de confirmación de éxito
 def mostrar_ventana_listo(manager):
     ventana_advertencia = pygame_gui.windows.UIMessageWindow(
         rect=pygame.Rect((500, 300), (300, 200)),  # Tamaño y posición de la ventana
@@ -58,6 +59,7 @@ def mostrar_album(album):
         error_carga = True
         cartas_a_mostrar = []
 
+#Calcular dimensiones para scroll y scrollbar
     # Calcula la altura total requerida para todas las cartas
     total_altura_cartas = len(cartas_a_mostrar) * carta_espacio_vertical + y_offset
 

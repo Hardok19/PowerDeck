@@ -4,7 +4,7 @@ from Album import playerAlbum
 import re
 import random
 from Gwindows import mostrar_ventana_advertencia, mostrar_album
-
+from CardDataManager import asignar_cartas_iniciales
 
 # Definimos algunas constantes
 ANCHO_VENTANA = 1366
@@ -12,6 +12,7 @@ ALTO_VENTANA = 720
 FPS = 60
 cantidad_cartas=3
 
+# Función para añadir un nuevo jugador con sus datos y asignarle un álbum de cartas inicial
 def addplayer(name, alias, pais, correo, contra, album):
     mensaje = ""
     i = 0
@@ -19,6 +20,7 @@ def addplayer(name, alias, pais, correo, contra, album):
     dar = True
     patron = r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$'
 
+    # Validaciones de entrada
     if pais == "":
         mensaje = "Debe seleccionar su país"
         dar = False
@@ -37,29 +39,26 @@ def addplayer(name, alias, pais, correo, contra, album):
         dar = False
         result = False
 
-    albumplayer = playerAlbum()
-    mazos = []
+    # Asignación de cartas iniciales si todos los datos son correctos
+    if dar:
+        cartas_iniciales = asignar_cartas_iniciales(album, cantidad_cartas=cantidad_cartas)
+        albumplayer = playerAlbum()
+
+        # Agregar las cartas iniciales al álbum del jugador
+        for carta in cartas_iniciales:
+            albumplayer.add(carta)
+
+        mazos = []
+        print(f"Cartas iniciales asignadas al jugador {name}: {cartas_iniciales}")
+
+        # Mostrar mensaje de éxito
+        mensaje = "Jugador registrado exitosamente"
+        return result, [name, alias, pais, correo, contra, albumplayer, mazos], mensaje
+    else:
+        # Retornar en caso de error
+        return result, None, mensaje
 
 
-    yaregistrados = []
-    while i < cantidad_cartas and dar:
-        continuar = True
-        o = random.randint(1, album.size)
-        if o == album.size + 1: continuar = False
-        if album.getcard(o).es_variante == "Si":
-            yaregistrados.append(o)
-            continuar = False
-        for l in yaregistrados:
-            if o == l:
-                continuar = False
-                break
-        if continuar:
-            i += 1
-            yaregistrados.append(o)
-            albumplayer.add(album.getcard(o))
-
-    print(albumplayer.obtener_cartas())
-    return result, [name, alias, pais, correo, contra, albumplayer, mazos], mensaje
 
 
 def playermenu(player, indexP, manager, players):

@@ -18,7 +18,7 @@ class Album:
         self.head = None
         self.getcartascreadas()
 
-
+    #Agrega una nueva carta al álbum
     def add(self, Carta):
         newNode = node(Carta)
         if self.head is None:
@@ -76,6 +76,7 @@ class Album:
             current = current.next
             i += 1
         return
+    #Verifica si todas las cartas en el álbum están activas en el juego.
     def albumvalid(self):
         current = self.head
         i = 0
