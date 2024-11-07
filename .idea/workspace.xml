@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105480ff-3270-4bc9-9de3-c8f50ab7e6e4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/PowerDeck.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PowerDeck.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="105480ff-3270-4bc9-9de3-c8f50ab7e6e4" name="Changes" comment="Algunos comentarios y probabilidades de las cartas">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Album.py" beforeDir="false" afterPath="$PROJECT_DIR$/Album.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardDataManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/CardDataManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cardlogic.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cardlogic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Carta.py" beforeDir="false" afterPath="$PROJECT_DIR$/Carta.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/Gwindows.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ImageHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/ImageHandler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/adminwindows.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cards.json" beforeDir="false" afterPath="$PROJECT_DIR$/cards.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/playerwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/playerwindows.py" afterDir="false" />
     </list>
@@ -126,6 +117,15 @@
       <workItem from="1730514918581" duration="1627000" />
       <workItem from="1730917286525" duration="2862000" />
     </task>
+    <task id="LOCAL-00001" summary="Algunos comentarios y probabilidades de las cartas">
+      <option name="closed" value="true" />
+      <created>1731020330644</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1731020330644</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,7 +162,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="Segunda-separación" />
                       </list>
                     </value>
                   </entry>
@@ -173,6 +173,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Algunos comentarios y probabilidades de las cartas" />
+    <option name="LAST_COMMIT_MESSAGE" value="Algunos comentarios y probabilidades de las cartas" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -10,7 +10,7 @@ from CardDataManager import asignar_cartas_iniciales
 ANCHO_VENTANA = 1366
 ALTO_VENTANA = 720
 FPS = 60
-cantidad_cartas=3
+cantidad_cartas=5
 
 # Función para añadir un nuevo jugador con sus datos y asignarle un álbum de cartas inicial
 def addplayer(name, alias, pais, correo, contra, album):

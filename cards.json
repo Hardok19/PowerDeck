@@ -451,9 +451,9 @@
         "fecha de creacion": "2024-10-26"
     },
     {
-        "nombre_personaje": "Mago del Crepúsculo",
+        "nombre_personaje": "Mago del Crepusculo",
         "descripcion": "Dominador de hechizos antiguos y oscuros",
-        "nombre_variante": "Crepúsculo, el Arcano",
+        "nombre_variante": "Crepusculo, el Arcano",
         "es_variante": "Sí",
         "raza": "Humano",
         "imagen": "none.jpg",
@@ -615,7 +615,7 @@
         "fecha de creacion": "2024-10-26"
     },
     {
-        "nombre_personaje": "Guardián de la Naturaleza",
+        "nombre_personaje": "Guardian de la Naturaleza",
         "descripcion": "Protector de los bosques y las criaturas",
         "nombre_variante": "Sylvan, el Eterno",
         "es_variante": "No",
