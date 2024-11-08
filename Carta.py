@@ -36,3 +36,48 @@ class Carta:
     def __repr__(self):
         return f"Personaje: {self.nombre_personaje} - Variante: {self.nombre_variante} - Raza: {self.raza}"
 
+    def to_dict(self):
+        return {
+            'nombre_personaje': self.nombre_personaje,
+            'descripcion': self.descripcion,
+            'nombre_variante': self.nombre_variante,
+            'es_variante': self.es_variante,
+            'fecha_creacion': self.fecha_creacion.isoformat(),
+            'fecha_modificacion': self.fecha_modificacion.isoformat(),
+            'raza': self.raza,
+            'imagen': self.imagen,
+            'tipo_carta': self.tipo_carta,
+            'selecRaza': self.selecRaza,
+            'activa_en_juego': self.activa_en_juego,
+            'activa_en_sobres': self.activa_en_sobres,
+            'turno_poder': self.turno_poder,
+            'bonus_poder': self.bonus_poder,
+            'atributos': self.atributos,
+            'poder_total': self.poder_total,
+            'llave_identificadora': self.llave_identificadora
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        data['fecha_creacion'] = datetime.fromisoformat(data['fecha_creacion'])
+        data['fecha_modificacion'] = datetime.fromisoformat(data['fecha_modificacion'])
+        carta = cls(
+            nombre_personaje=data['nombre_personaje'],
+            descripcion=data['descripcion'],
+            nombre_variante=data['nombre_variante'],
+            es_variante=data['es_variante'],
+            raza=data['raza'],
+            imagen=data['imagen'],
+            tipo_carta=data['tipo_carta'],
+            selecRaza=data['selecRaza'],
+            turno_poder=data['turno_poder'],
+            bonus_poder=data['bonus_poder'],
+            atributos=data['atributos']
+        )
+        carta.fecha_creacion = data['fecha_creacion']
+        carta.fecha_modificacion = data['fecha_modificacion']
+        carta.activa_en_juego = data.get('activa_en_juego', True)
+        carta.activa_en_sobres = data.get('activa_en_sobres', True)
+        carta.poder_total = data['poder_total']
+        carta.llave_identificadora = data['llave_identificadora']
+        return carta

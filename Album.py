@@ -85,6 +85,20 @@ class Album:
                 return False
         return True
 
+    def to_list(self):
+        """Convierte el Album a una lista de diccionarios de cartas."""
+        return [carta.to_dict() for carta in self.obtener_cartas()]
+
+    @classmethod
+    def from_list(cls, data_list):
+        """Crea un Album a partir de una lista de diccionarios de cartas."""
+        album = cls()
+        album.clean()
+        for carta_data in data_list:
+            carta = Carta.from_dict(carta_data)
+            album.add(carta)
+        return album
+
 class playerAlbum(Album):
     def __init__(self):
         super().__init__()

@@ -108,7 +108,8 @@ def leer_cartas_y_guardar_en_variables():
         print(f"No se encontró el archivo {archivo}.")
 
 
-def asignar_cartas_iniciales(album, cantidad_cartas=10):
+# Función para asignar cartas iniciales a un jugador nuevo
+def asignar_cartas_iniciales(album, cantidad_cartas=4):
     cartas_asignadas = []
     tipos_asignados = set()  # Para asegurar que no haya duplicados por personaje
 

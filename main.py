@@ -1,3 +1,4 @@
+# main.py
 import pygame
 import pygame_gui
 from Album import Album
@@ -5,7 +6,8 @@ import CardDataManager
 from playerwindows import mostrar_cardsforuser, addplayer, playermenu
 from Gwindows import mostrar_ventana_advertencia
 from adminwindows import admenu
-from playerDataManager import cargar_jugadores
+from playerDataManager import save_players, load_players  # Importar desde el nuevo módulo
+
 
 pygame.init()
 
@@ -14,20 +16,17 @@ ANCHO_VENTANA = 1366
 ALTO_VENTANA = 720
 FPS = 60
 
-
-
-
-
 #Manager
 manager = pygame_gui.UIManager((ANCHO_VENTANA, ALTO_VENTANA))
-
 
 # Cargar las cartas al inicio
 CARTAS_CREADAS = CardDataManager.cargar_cartas_desde_json()
 album = Album()
-players = [["Hardok", "Hardok", "Costa Rica", "Hardok", "Hardok", album, [("Principal", album), ("Principal", album), ("Principal", album), ("Principal", album), ("Principal", album)]]]
 
-
+# Inicializar jugadores cargados desde JSON
+players = load_players()
+if not players:
+    players = []
 
 def begin():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
@@ -148,6 +147,7 @@ def newUser():
 
                 if puedeasignar:
                     players.append(tempplayer[1])
+                    save_players(players)
                     manager.clear_and_reset()
                     mostrar_cardsforuser(tempplayer[1][5], manager)
                     ejecutando = False
@@ -172,6 +172,7 @@ def newUser():
         pygame.display.flip()
     manager.clear_and_reset()
     begin()
+
 
 def loguear():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
@@ -235,14 +236,6 @@ def loguear():
 
     manager.clear_and_reset()
 
-def iniciar_sesion(alias, contra):
-    jugador = verificar_jugador(alias, contra)
-    if jugador:
-        print(f"Bienvenido, {jugador['name']}!")  # Muestra el nombre del jugador
-        return jugador
-    else:
-        print("Nombre de usuario o contraseña incorrectos.")
-        return None
 
 #Programa principal
 def main():

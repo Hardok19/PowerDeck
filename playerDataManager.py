@@ -1,33 +1,49 @@
 import json
-import os
+from playerwindows import playerAlbum  # Importa playerAlbum desde playerwindows.py
+from Album import playerAlbum
 
-archivo_jugadores = "players.json"
+def player_to_dict(player):
+    name, alias, country, email, password, album, mazos = player
+    return {
+        'name': name,
+        'alias': alias,
+        'country': country,
+        'email': email,
+        'password': password,
+        'album': album.to_list(),
+        'mazos': [{'nombre': nombre_mazo, 'album': mazo_album.to_list()} for nombre_mazo, mazo_album in mazos]
+    }
 
-def cargar_jugadores():
-    # Si el archivo no existe, retorna una lista vacía
-    if not os.path.exists(archivo_jugadores):
+def player_from_dict(data):
+    name = data['name']
+    alias = data['alias']
+    country = data['country']
+    email = data['email']
+    password = data['password']
+    album = playerAlbum.from_list(data['album'])
+    mazos = [(mazo_data['nombre'], playerAlbum.from_list(mazo_data['album'])) for mazo_data in data['mazos']]
+    return [name, alias, country, email, password, album, mazos]
+
+def save_players(players, filename='players.json'):
+    players_data = [player_to_dict(player) for player in players]
+    try:
+        with open(filename, 'w') as f:
+            json.dump(players_data, f, indent=4)
+        print("Jugadores guardados exitosamente en players.json")
+    except Exception as e:
+        print("Error al guardar jugadores:", e)
+
+def load_players(filename='players.json'):
+    try:
+        with open(filename, 'r') as f:
+            content = f.read()
+            if not content.strip():
+                # El archivo está vacío
+                return []
+            players_data = json.loads(content)
+        return [player_from_dict(data) for data in players_data]
+    except FileNotFoundError:
         return []
-
-    # Intenta cargar el archivo JSON, maneja excepciones si el archivo está vacío o malformado
-    with open(archivo_jugadores, 'r') as archivo:
-        try:
-            return json.load(archivo)
-        except json.JSONDecodeError:
-            # Retorna una lista vacía si el archivo está vacío o malformado
-            print("Advertencia: El archivo players.json está vacío o malformado. Se inicializará una lista vacía.")
-            return []
-
-def guardar_jugador(jugador):
-    jugadores = cargar_jugadores()
-
-    # Verificar si el alias o correo ya existen
-    for j in jugadores:
-        if j["alias"] == jugador["alias"] or j["correo"] == jugador["correo"]:
-            return False, "El alias o correo ya están registrados."
-
-    # Agregar el nuevo jugador a la lista de jugadores
-    jugadores.append(jugador)
-    # Guardar la lista actualizada en el archivo JSON
-    with open(archivo_jugadores, 'w') as archivo:
-        json.dump(jugadores, archivo, indent=4)
-    return True, "Jugador registrado correctamente."
+    except json.JSONDecodeError as e:
+        print(f"Error al decodificar JSON en {filename}: {e}")
+        return []

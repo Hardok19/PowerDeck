@@ -2,21 +2,19 @@ import pygame
 import pygame_gui
 from Album import playerAlbum
 import re
-import random
 from Gwindows import mostrar_ventana_advertencia, mostrar_album
 from CardDataManager import asignar_cartas_iniciales
-from playerDataManager import guardar_jugador
+from playerDataManager import save_players  # Importar desde el nuevo módulo
 
 # Definimos algunas constantes
 ANCHO_VENTANA = 1366
 ALTO_VENTANA = 720
 FPS = 60
-cantidad_cartas=5
+cantidad_cartas = 10  # Configurable, cantidad de cartas iniciales
 
-# Función para añadir un nuevo jugador con sus datos y asignarle un álbum de cartas inicial
+
 def addplayer(name, alias, pais, correo, contra, album):
     mensaje = ""
-    i = 0
     result = True
     dar = True
     patron = r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$'
@@ -32,7 +30,7 @@ def addplayer(name, alias, pais, correo, contra, album):
         result = False
 
     if not len(name) in range(4, 12) or not len(alias) in range(4, 12):
-        mensaje = "El nombre y alias deben estar entre 4 y 12 carácteres"
+        mensaje = "El nombre y alias deben estar entre 4 y 12 caracteres"
         dar = False
         result = False
     if not re.match(patron, correo):
@@ -52,29 +50,12 @@ def addplayer(name, alias, pais, correo, contra, album):
         mazos = []
         print(f"Cartas iniciales asignadas al jugador {name}: {cartas_iniciales}")
 
-        jugador = {
-            "name": name,
-            "alias": alias,
-            "pais": pais,
-            "correo": correo,
-            "contra": contra,
-            "cartas_iniciales": [c.nombre_personaje for c in cartas_iniciales]  # Ejemplo: solo guarda los nombres
-        }
-
-        # Guardar en JSON
-        guardado, mensaje_guardado = guardar_jugador(jugador)
-        if not guardado:
-            return False, None, mensaje_guardado  # Retorna mensaje de error si el guardado falla
-
-
         # Mostrar mensaje de éxito
         mensaje = "Jugador registrado exitosamente"
         return result, [name, alias, pais, correo, contra, albumplayer, mazos], mensaje
     else:
         # Retornar en caso de error
         return result, None, mensaje
-
-
 
 
 def playermenu(player, indexP, manager, players):
@@ -95,7 +76,7 @@ def playermenu(player, indexP, manager, players):
     while ejecutando:
         tiempo_delta = reloj.tick(FPS) / 1000.0
 
-        # Event handling
+        # Manejo de eventos
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
@@ -110,19 +91,16 @@ def playermenu(player, indexP, manager, players):
                 ejecutando = False
                 playermenu(player, indexP, manager, players)
 
-
             manager.process_events(evento)
 
-
-
-
-        # Update and render elements
+        # Actualización y renderizado
         manager.update(tiempo_delta)
-        pantalla.fill((0, 25, 50))  # Dark blue background
+        pantalla.fill((0, 25, 50))  # Fondo azul oscuro
         manager.draw_ui(pantalla)
 
         pygame.display.flip()
     manager.clear_and_reset()
+
 
 def mostrar_cardsforuser(playeralbum, manager):
     pantalla = pygame.display.set_mode((1000, 600))
@@ -144,7 +122,7 @@ def mostrar_cardsforuser(playeralbum, manager):
     while ejecutando:
         tiempo_delta = reloj.tick(FPS) / 1000.0
 
-        # Event handling
+        # Manejo de eventos
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
@@ -152,12 +130,12 @@ def mostrar_cardsforuser(playeralbum, manager):
                 ejecutando = False
             manager.process_events(evento)
 
-        pantalla.fill((0, 25, 0))  # Fill screen at the start of each frame
+        pantalla.fill((0, 25, 0))  # Fondo verde oscuro
 
         cartax = 200
 
-        # Display the cards
-        for i in range(1, cantidad_cartas+1):
+        # Mostrar las cartas asignadas
+        for i in range(1, cantidad_cartas + 1):
             carta = playeralbum.getcard(i)
             try:
                 imagen_carta = pygame.image.load(carta.imagen)
@@ -167,17 +145,19 @@ def mostrar_cardsforuser(playeralbum, manager):
                 cartax += 175
             except pygame.error as e:
                 print(f"Error al cargar la imagen {carta.imagen}: {e}")
-        pantalla.blit(asignadas, asignadas.get_rect(center=[pantalla.get_rect().centerx, pantalla.get_rect().centery - 180]))
-        # Update and render elements
+        pantalla.blit(asignadas,
+                      asignadas.get_rect(center=[pantalla.get_rect().centerx, pantalla.get_rect().centery - 180]))
+
+        # Actualización y renderizado
         manager.update(tiempo_delta)
         manager.draw_ui(pantalla)
         pygame.display.flip()
 
-# Función para mostrar el álbum de cartas con imágenes, con botón de alternar variantes y selección múltiple
-def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cartas):
-    playeralbum.sorter()  # Ordenar cartas por nombre
-    mostrar_variantes = True
 
+# Función para mostrar álbum y selección múltiple de cartas al crear un mazo
+def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cartas):
+    playeralbum.sorter()
+    mostrar_variantes = True
 
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     pygame.display.set_caption("Añadir Mazo")
@@ -194,7 +174,7 @@ def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cart
         manager=manager
     )
 
-    # Coordenadas y dimensiones
+    # Coordenadas y dimensiones para mostrar cartas
     x_offset = 50
     y_offset = 50
     imagen_ancho = 100
@@ -202,42 +182,34 @@ def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cart
     texto_espacio_vertical = 30
     carta_espacio_vertical = imagen_alto + 120
 
-    # Definir botón de alternar variantes
     boton_rect = pygame.Rect(ANCHO_VENTANA - 150, 10, 130, 40)
     reloj = pygame.time.Clock()
     ejecutando = True
     scroll_position = 0
     scroll_speed = 30
 
-
-
-    # Obtener cartas y preprocesar para mostrar
+    # Obtener cartas y procesar para mostrar
     try:
         cartas_a_mostrar = playeralbum.obtener_cartas()
         if not mostrar_variantes:
-            cartas_a_mostrar = [carta for carta in cartas_a_mostrar if carta.es_variante == "No" or  carta.es_variante == False]
+            cartas_a_mostrar = [carta for carta in cartas_a_mostrar if
+                                carta.es_variante == "No" or carta.es_variante == False]
     except Exception as e:
         print("Error al cargar cartas:", e)
         cartas_a_mostrar = []
 
-    # Control de selección de cartas
     cartas_seleccionadas = []
-
-    # Calcular altura total de cartas para scroll
     total_altura_cartas = len(cartas_a_mostrar) * carta_espacio_vertical + y_offset
     contenido_visible = ALTO_VENTANA
     contenido_total = total_altura_cartas if total_altura_cartas > contenido_visible else contenido_visible
 
-    # Tamaño del scrollbar
     scrollbar_altura = max(ALTO_VENTANA * (contenido_visible / contenido_total), 30)
     scrollbar_pos_x = ANCHO_VENTANA - 20
     scrollbar_width = 15
 
-
     while ejecutando:
         tiempo_delta = reloj.tick(FPS)
 
-        # Eventos
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
@@ -261,18 +233,16 @@ def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cart
                     carta_rect = pygame.Rect(x_offset, carta_pos, imagen_ancho, imagen_alto)
                     if carta_rect.collidepoint(evento.pos):
                         if carta in cartas_seleccionadas:
-                            cartas_seleccionadas.remove(carta)  # Deseleccionar
+                            cartas_seleccionadas.remove(carta)
                         elif len(cartas_seleccionadas) < max_seleccion:
-                            cartas_seleccionadas.append(carta)  # Seleccionar
+                            cartas_seleccionadas.append(carta)
                         break
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == addmazo:
-                print(len(cartas_seleccionadas))
                 continuar = True
                 if not len(cartas_seleccionadas) == cantidad_cartas:
                     mostrar_ventana_advertencia(manager, f"seleccione {cantidad_cartas} cartas")
                     continue
                 for al in players[indexP - 1][6]:
-                    print(al[0])
                     if al[0] == entrada_nombre.get_text():
                         mostrar_ventana_advertencia(manager, "Un mazo con ese nombre ya existe en tus mazos")
                         continuar = False
@@ -284,21 +254,19 @@ def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cart
                 for card in cartas_seleccionadas:
                     temp.add(card)
                 players[indexP - 1][6].append((entrada_nombre.get_text(), temp))
+                save_players(players)
                 print("Mazo agregado correctamente")
                 ejecutando = False
                 manager.clear_and_reset()
                 nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cartas)
-
 
             # Scroll con rueda del mouse
             if evento.type == pygame.MOUSEWHEEL:
                 scroll_increment = -evento.y * scroll_speed
                 scroll_position = max(0, min(scroll_position + scroll_increment, contenido_total - contenido_visible))
             manager.process_events(evento)
-        # Fondo de la pantalla
-        pantalla.fill((24, 0, 40))
 
-        # Botón de alternar variantes
+        pantalla.fill((24, 0, 40))
         pygame.draw.rect(pantalla, (0, 255, 0), boton_rect)
         fuente = pygame.font.SysFont(None, 24)
         boton_texto = "Ver Variantes" if not mostrar_variantes else "Ocultar Variantes"
@@ -313,21 +281,17 @@ def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cart
                     imagen_carta = pygame.image.load(carta.imagen)
                     imagen_carta = pygame.transform.scale(imagen_carta, (imagen_ancho, imagen_alto))
                     pantalla.blit(imagen_carta, (x_offset, carta_pos))
-                    # Mostrar borde de selección
                     if carta in cartas_seleccionadas:
                         pygame.draw.rect(pantalla, (255, 0, 0),
                                          pygame.Rect(x_offset, carta_pos, imagen_ancho, imagen_alto), 3)
                 except pygame.error as e:
                     print(f"Error al cargar la imagen {carta.imagen}: {e}")
 
-                # Textos de carta
                 pantalla.blit(fuente.render(f"Personaje: {carta.nombre_personaje}", True, (255, 255, 255)),
                               (x_offset + imagen_ancho + 20, carta_pos))
 
-
-        # Scrollbar
         scrollbar_pos_y = (scroll_position / (contenido_total - contenido_visible + 1)) * (
-                    ALTO_VENTANA - scrollbar_altura)
+                ALTO_VENTANA - scrollbar_altura)
         pygame.draw.rect(pantalla, (200, 200, 200),
                          (scrollbar_pos_x, scrollbar_pos_y, scrollbar_width, scrollbar_altura))
 
@@ -337,7 +301,7 @@ def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cart
     manager.clear_and_reset()
     return players
 
-# Función vermazos
+
 def vermazos(indexP, players):
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     player = players[indexP - 1]
@@ -345,33 +309,29 @@ def vermazos(indexP, players):
     reloj = pygame.time.Clock()
     ejecutando = True
 
-    # Obtiene la lista de álbumes en la posición 6 del jugador
     albumes = player[6]  # Suponiendo que player[6] es una lista de tuplas (nombre, Album)
 
     while ejecutando:
         pantalla.fill((30, 30, 30))  # Fondo gris oscuro
 
-        # Eventos
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 for i, (nombre, album) in enumerate(albumes):
-                    rect = pygame.Rect(50, 50 + i * 40, 200, 30)  # Calcula la posición del botón
+                    rect = pygame.Rect(50, 50 + i * 40, 200, 30)
                     if rect.collidepoint(mouse_pos):
-                        mostrar_album(album)  # Llama a mostrar_album con el álbum seleccionado
+                        mostrar_album(album)
 
-        # Dibuja los nombres de los álbumes
         for i, (nombre, album) in enumerate(albumes):
-            if album.albumvalid: valid = "Válido"
-            else: valid = "Inválido"
+            valid = "Válido" if album.albumvalid() else "Inválido"
             texto = font.render(nombre, True, (255, 255, 255))
             valido = font.render(valid, True, (255, 255, 255))
             rect = pygame.Rect(50, 50 + i * 40, 200, 30)
-            pygame.draw.rect(pantalla, (70, 70, 200), rect)  # Botón
-            pantalla.blit(texto, (rect.x + 10, rect.y + 5))  # Dibuja el texto en el botón
-            pantalla.blit(valido, (rect.x + 200, rect.y + 5))  # Dibuja el texto en el botón
+            pygame.draw.rect(pantalla, (70, 70, 200), rect)
+            pantalla.blit(texto, (rect.x + 10, rect.y + 5))
+            pantalla.blit(valido, (rect.x + 200, rect.y + 5))
 
         pygame.display.flip()
         reloj.tick(FPS)
