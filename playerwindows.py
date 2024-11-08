@@ -5,6 +5,7 @@ import re
 import random
 from Gwindows import mostrar_ventana_advertencia, mostrar_album
 from CardDataManager import asignar_cartas_iniciales
+from playerDataManager import guardar_jugador
 
 # Definimos algunas constantes
 ANCHO_VENTANA = 1366
@@ -50,6 +51,21 @@ def addplayer(name, alias, pais, correo, contra, album):
 
         mazos = []
         print(f"Cartas iniciales asignadas al jugador {name}: {cartas_iniciales}")
+
+        jugador = {
+            "name": name,
+            "alias": alias,
+            "pais": pais,
+            "correo": correo,
+            "contra": contra,
+            "cartas_iniciales": [c.nombre_personaje for c in cartas_iniciales]  # Ejemplo: solo guarda los nombres
+        }
+
+        # Guardar en JSON
+        guardado, mensaje_guardado = guardar_jugador(jugador)
+        if not guardado:
+            return False, None, mensaje_guardado  # Retorna mensaje de error si el guardado falla
+
 
         # Mostrar mensaje de éxito
         mensaje = "Jugador registrado exitosamente"

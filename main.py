@@ -5,7 +5,7 @@ import CardDataManager
 from playerwindows import mostrar_cardsforuser, addplayer, playermenu
 from Gwindows import mostrar_ventana_advertencia
 from adminwindows import admenu
-
+from playerDataManager import cargar_jugadores
 
 pygame.init()
 
@@ -235,7 +235,14 @@ def loguear():
 
     manager.clear_and_reset()
 
-
+def iniciar_sesion(alias, contra):
+    jugador = verificar_jugador(alias, contra)
+    if jugador:
+        print(f"Bienvenido, {jugador['name']}!")  # Muestra el nombre del jugador
+        return jugador
+    else:
+        print("Nombre de usuario o contraseña incorrectos.")
+        return None
 
 #Programa principal
 def main():
