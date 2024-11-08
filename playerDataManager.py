@@ -1,5 +1,5 @@
 import json
-from playerwindows import playerAlbum  # Importa playerAlbum desde playerwindows.py
+from playerwindows import playerAlbum
 from Album import playerAlbum
 
 def player_to_dict(player):
