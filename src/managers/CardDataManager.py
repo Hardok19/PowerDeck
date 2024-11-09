@@ -1,9 +1,10 @@
 import json
-from Carta import Carta
+from PowerDeck.src.models.Carta import Carta
 import os
 import random
 
-archivo = 'cards.json'
+archivo = "../data/cards.json"
+
 PROBABILIDADES_RAREZA = {
     "Ultra-Rara": 0.05,
     "Muy Rara": 0.12,

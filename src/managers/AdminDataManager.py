@@ -1,5 +1,5 @@
 import json
-from Admin import Admin  # Asegúrate de tener la clase Admin definida en Admin.py
+from PowerDeck.src.models.Admin import Admin  # Asegúrate de tener la clase Admin definida en Admin.py
 
 def load_admins(filename='admins.json'):
     try:

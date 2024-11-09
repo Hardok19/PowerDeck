@@ -1,6 +1,9 @@
 import json
-from playerwindows import playerAlbum
-from Album import playerAlbum
+from PowerDeck.src.models.Album import playerAlbum
+
+
+
+filename = '../data/players.json'
 
 def player_to_dict(player):
     name, alias, country, email, password, album, mazos = player
@@ -24,7 +27,7 @@ def player_from_dict(data):
     mazos = [(mazo_data['nombre'], playerAlbum.from_list(mazo_data['album'])) for mazo_data in data['mazos']]
     return [name, alias, country, email, password, album, mazos]
 
-def save_players(players, filename='players.json'):
+def save_players(players):
     players_data = [player_to_dict(player) for player in players]
     try:
         with open(filename, 'w') as f:
@@ -33,7 +36,7 @@ def save_players(players, filename='players.json'):
     except Exception as e:
         print("Error al guardar jugadores:", e)
 
-def load_players(filename='players.json'):
+def load_players():
     try:
         with open(filename, 'r') as f:
             content = f.read()
