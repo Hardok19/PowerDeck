@@ -4,7 +4,7 @@ from Album import playerAlbum
 import re
 from Gwindows import mostrar_ventana_advertencia, mostrar_album
 from CardDataManager import asignar_cartas_iniciales
-from playerDataManager import save_players  # Importar desde el nuevo módulo
+from playerDataManager import save_players
 
 # Definimos algunas constantes
 ANCHO_VENTANA = 1366

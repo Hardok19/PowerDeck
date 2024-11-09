@@ -105,4 +105,3 @@ class playerAlbum(Album):
 
     def getcartascreadas(self):
         pass
-

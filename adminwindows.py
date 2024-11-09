@@ -248,3 +248,4 @@ def admenu(manager, album, CARTAS_CREADAS):
 
         pygame.display.update()
 
+

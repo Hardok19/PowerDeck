@@ -6,7 +6,7 @@ import CardDataManager
 from playerwindows import mostrar_cardsforuser, addplayer, playermenu
 from Gwindows import mostrar_ventana_advertencia
 from adminwindows import admenu
-from playerDataManager import save_players, load_players  # Importar desde el nuevo módulo
+from playerDataManager import save_players, load_players
 
 
 pygame.init()
