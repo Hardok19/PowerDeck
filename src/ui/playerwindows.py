@@ -1,10 +1,10 @@
 import pygame
 import pygame_gui
-from PowerDeck.src.models.Album import playerAlbum
+from src.models.Album import playerAlbum
 import re
-from PowerDeck.src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_album
-from PowerDeck.src.managers.CardDataManager import asignar_cartas_iniciales
-from PowerDeck.src.managers.playerDataManager import save_players
+from src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_album
+from src.managers.CardDataManager import asignar_cartas_iniciales
+from src.managers.playerDataManager import save_players
 
 # Definimos algunas constantes
 ANCHO_VENTANA = 1366
@@ -335,3 +335,60 @@ def vermazos(indexP, players):
 
         pygame.display.flip()
         reloj.tick(FPS)
+
+
+def playermenu(player, indexP, manager, players):
+    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+
+    mazos = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect(508, 200, 350, 100),
+        text='Ver Mazos',
+        manager=manager
+    )
+    crearmazo = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect(508, 400, 350, 100),
+        text='Crear Mazo',
+        manager=manager
+    )
+    buscar_partida_btn = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect(508, 600, 350, 100),
+        text='Buscar Partida',
+        manager=manager
+    )
+
+    reloj = pygame.time.Clock()
+    ejecutando = True
+    while ejecutando:
+        tiempo_delta = reloj.tick(FPS) / 1000.0
+
+        # Manejo de eventos
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                ejecutando = False
+            if evento.type == pygame_gui.UI_BUTTON_PRESSED:
+                if evento.ui_element == crearmazo:
+                    manager.clear_and_reset()
+                    players = nuevomazo(player[5], indexP, manager, players, max_seleccion=cantidad_cartas)
+                    ejecutando = False
+                    playermenu(player, indexP, manager, players)
+                elif evento.ui_element == mazos:
+                    manager.clear_and_reset()
+                    vermazos(indexP, players)
+                    ejecutando = False
+                    playermenu(player, indexP, manager, players)
+                elif evento.ui_element == buscar_partida_btn:
+                    manager.clear_and_reset()
+                    #buscar_partida(player, indexP, manager, players)
+                    ejecutando = False
+                    playermenu(player, indexP, manager, players)
+
+            manager.process_events(evento)
+
+        # Actualización y renderizado
+        manager.update(tiempo_delta)
+        pantalla.fill((0, 25, 50))  # Fondo azul oscuro
+        manager.draw_ui(pantalla)
+
+        pygame.display.flip()
+    manager.clear_and_reset()
+
