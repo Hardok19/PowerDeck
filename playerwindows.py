@@ -10,7 +10,7 @@ from playerDataManager import save_players
 ANCHO_VENTANA = 1366
 ALTO_VENTANA = 720
 FPS = 60
-cantidad_cartas = 10  # Configurable, cantidad de cartas iniciales
+cantidad_cartas = 5  # Configurable, cantidad de cartas iniciales
 
 
 def addplayer(name, alias, pais, correo, contra, album):
