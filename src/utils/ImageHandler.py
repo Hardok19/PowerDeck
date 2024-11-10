@@ -1,8 +1,7 @@
-
 import tkinter as tk
 from tkinter import filedialog
 
-
+# Función para abrir un diálogo de selección de archivos
 def open_file_dialog():
     # Crear una instancia de Tkinter pero no mostrar la ventana principal
     root = tk.Tk()
