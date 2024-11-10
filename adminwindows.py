@@ -176,7 +176,7 @@ def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
                     descripcion=descripcion,
                     nombre_variante=nombre_variante,
                     selecRaza=raza,
-                    es_variante= svariant(nombre_personaje),
+                    es_variante=svariant(nombre_personaje),
                     raza=raza,
                     imagen=image_path,
                     tipo_carta=tipo_carta,

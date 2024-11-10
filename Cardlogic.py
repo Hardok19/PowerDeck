@@ -73,8 +73,8 @@ def svariant(nombrecarta):
     #Verifica si una carta ya existe en el sistema al compararla con el nombre de cartas cargadas.
     cartas = CardDataManager.cargar_cartas_desde_json()
     for cartaexiste in cartas:
-        if cartaexiste == nombrecarta:
-            return False
-    return True
+        if cartaexiste.get_nombrepersonaje() == nombrecarta:
+            return "Si"
+    return "No"
 
 

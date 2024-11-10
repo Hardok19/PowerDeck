@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105480ff-3270-4bc9-9de3-c8f50ab7e6e4" name="Changes" comment="Ya guarda los jugadores con sus mazos creados">
-      <change beforePath="$PROJECT_DIR$/.idea/PowerDeck.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PowerDeck.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="105480ff-3270-4bc9-9de3-c8f50ab7e6e4" name="Changes" comment="Los atributos ya aceptan valores negativos y positivos entre -100 y 100">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cardlogic.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cardlogic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Carta.py" beforeDir="false" afterPath="$PROJECT_DIR$/Carta.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/adminwindows.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cards.json" beforeDir="false" afterPath="$PROJECT_DIR$/cards.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/players.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playerwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/playerwindows.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +124,7 @@
       <workItem from="1730426059477" duration="198000" />
       <workItem from="1730514918581" duration="1627000" />
       <workItem from="1730917286525" duration="2862000" />
-      <workItem from="1731121406512" duration="1294000" />
+      <workItem from="1731121406512" duration="8519000" />
     </task>
     <task id="LOCAL-00001" summary="Algunos comentarios y probabilidades de las cartas">
       <option name="closed" value="true" />
@@ -179,7 +182,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731111182261</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Los atributos ya aceptan valores negativos y positivos entre -100 y 100">
+      <option name="closed" value="true" />
+      <created>1731123441129</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1731123441129</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,9 +244,19 @@
     <MESSAGE value="agregando cartas" />
     <MESSAGE value="Guardar jugadores" />
     <MESSAGE value="Ya guarda los jugadores con sus mazos creados" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ya guarda los jugadores con sus mazos creados" />
+    <MESSAGE value="Los atributos ya aceptan valores negativos y positivos entre -100 y 100" />
+    <option name="LAST_COMMIT_MESSAGE" value="Los atributos ya aceptan valores negativos y positivos entre -100 y 100" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/adminwindows.py</url>
+          <line>178</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="valor_seleccionado_variante" />
@@ -245,6 +266,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PowerDeck$Album.coverage" NAME="Album Coverage Results" MODIFIED="1728794368087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PowerDeck$CardDataManager.coverage" NAME="CardDataManager Coverage Results" MODIFIED="1728795309407" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PowerDeck$main.coverage" NAME="main Coverage Results" MODIFIED="1731121443191" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PowerDeck$main.coverage" NAME="main Coverage Results" MODIFIED="1731209678257" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
