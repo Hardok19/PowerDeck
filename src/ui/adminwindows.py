@@ -1,12 +1,10 @@
 import pygame
 import pygame_gui
-import src.utils.ImageHandler
+from src.managers import CardDataManager
 from src.models.Carta import Carta
-import src.managers.CardDataManager
 from src.logic.Cardlogic import svariant, isvalid, getatr
 from src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_ventana_listo, mostrar_album
-
-
+from src.utils import ImageHandler
 
 # Definimos algunas constantes
 ANCHO_VENTANA = 1366

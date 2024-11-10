@@ -1,4 +1,5 @@
 from src.models.Carta import Carta
+from src.models.Carta import generar_llave_identificadora
 import json
 from src.managers.CardDataManager import cargar_cartas_desde_json
 jso = json.JSONDecoder()
@@ -9,8 +10,6 @@ class node:
     def __init__(self, Carta):
         self.Carta = Carta
         self.next = None
-
-
 
 
 class Album:
@@ -91,9 +90,9 @@ class Album:
         return [carta.to_dict() for carta in self.obtener_cartas()]
 
     @classmethod
-    def from_list(cls, data_list):
+    def from_list(cls, data_list, isdeck):
         """Crea un Album a partir de una lista de diccionarios de cartas."""
-        album = cls()
+        album = cls(isdeck)
         album.clean()
         for carta_data in data_list:
             carta = Carta.from_dict(carta_data)
@@ -101,8 +100,17 @@ class Album:
         return album
 
 class playerAlbum(Album):
-    def __init__(self):
+
+    def __init__(self, isdeck):
         super().__init__()
+        self.isdeck = isdeck
+        self.llave = self.llave4deck()
 
     def getcartascreadas(self):
         pass
+
+    def llave4deck(self):
+        if self.isdeck > 0:
+            return generar_llave_identificadora
+        else:
+            return

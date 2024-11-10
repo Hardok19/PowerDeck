@@ -5,6 +5,8 @@ import re
 from src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_album
 from src.managers.CardDataManager import asignar_cartas_iniciales
 from src.managers.playerDataManager import save_players
+from src.models.player import player
+from src.models.Carta import generar_llave_identificadora
 
 # Definimos algunas constantes
 ANCHO_VENTANA = 1366
@@ -41,7 +43,7 @@ def addplayer(name, alias, pais, correo, contra, album):
     # Asignación de cartas iniciales si todos los datos son correctos
     if dar:
         cartas_iniciales = asignar_cartas_iniciales(album, cantidad_cartas=cantidad_cartas)
-        albumplayer = playerAlbum()
+        albumplayer = playerAlbum(0)
 
         # Agregar las cartas iniciales al álbum del jugador
         for carta in cartas_iniciales:
@@ -49,57 +51,13 @@ def addplayer(name, alias, pais, correo, contra, album):
 
         mazos = []
         print(f"Cartas iniciales asignadas al jugador {name}: {cartas_iniciales}")
-
+        TEMPplayer = player(name, alias, pais, correo, contra, "", 0, albumplayer, mazos)
         # Mostrar mensaje de éxito
         mensaje = "Jugador registrado exitosamente"
-        return result, [name, alias, pais, correo, contra, albumplayer, mazos], mensaje
+        return result, TEMPplayer, mensaje
     else:
         # Retornar en caso de error
         return result, None, mensaje
-
-
-def playermenu(player, indexP, manager, players):
-    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
-
-    mazos = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect(508, 200, 350, 100),
-        text='Ver Mazos',
-        manager=manager
-    )
-    crearmazo = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect(508, 400, 350, 100),
-        text='Crear Mazo',
-        manager=manager
-    )
-    reloj = pygame.time.Clock()
-    ejecutando = True
-    while ejecutando:
-        tiempo_delta = reloj.tick(FPS) / 1000.0
-
-        # Manejo de eventos
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                ejecutando = False
-            if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == crearmazo:
-                manager.clear_and_reset()
-                players = nuevomazo(player[5], indexP, manager, players, max_seleccion=cantidad_cartas)
-                ejecutando = False
-                playermenu(player, indexP, manager, players)
-            if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == mazos:
-                manager.clear_and_reset()
-                vermazos(indexP, players)
-                ejecutando = False
-                playermenu(player, indexP, manager, players)
-
-            manager.process_events(evento)
-
-        # Actualización y renderizado
-        manager.update(tiempo_delta)
-        pantalla.fill((0, 25, 50))  # Fondo azul oscuro
-        manager.draw_ui(pantalla)
-
-        pygame.display.flip()
-    manager.clear_and_reset()
 
 
 def mostrar_cardsforuser(playeralbum, manager):
@@ -242,18 +200,18 @@ def nuevomazo(playeralbum, indexP, manager, players, max_seleccion=cantidad_cart
                 if not len(cartas_seleccionadas) == cantidad_cartas:
                     mostrar_ventana_advertencia(manager, f"seleccione {cantidad_cartas} cartas")
                     continue
-                for al in players[indexP - 1][6]:
-                    if al[0] == entrada_nombre.get_text():
+                for mazo in players[indexP - 1].mazos:
+                    if mazo[0] == entrada_nombre.get_text():
                         mostrar_ventana_advertencia(manager, "Un mazo con ese nombre ya existe en tus mazos")
                         continuar = False
                 if entrada_nombre.get_text() == "":
                     mostrar_ventana_advertencia(manager, "Ingrese un nombre para el mazo")
                     continuar = False
                 if not continuar: continue
-                temp = playerAlbum()
+                temp = playerAlbum(1)
                 for card in cartas_seleccionadas:
                     temp.add(card)
-                players[indexP - 1][6].append((entrada_nombre.get_text(), temp))
+                players[indexP - 1].mazos.append((entrada_nombre.get_text(), temp, generar_llave_identificadora()))
                 save_players(players)
                 print("Mazo agregado correctamente")
                 ejecutando = False
@@ -309,7 +267,7 @@ def vermazos(indexP, players):
     reloj = pygame.time.Clock()
     ejecutando = True
 
-    albumes = player[6]  # Suponiendo que player[6] es una lista de tuplas (nombre, Album)
+    albumes = player.mazos
 
     while ejecutando:
         pantalla.fill((30, 30, 30))  # Fondo gris oscuro
@@ -368,7 +326,7 @@ def playermenu(player, indexP, manager, players):
             if evento.type == pygame_gui.UI_BUTTON_PRESSED:
                 if evento.ui_element == crearmazo:
                     manager.clear_and_reset()
-                    players = nuevomazo(player[5], indexP, manager, players, max_seleccion=cantidad_cartas)
+                    players = nuevomazo(player.album, indexP, manager, players, max_seleccion=cantidad_cartas)
                     ejecutando = False
                     playermenu(player, indexP, manager, players)
                 elif evento.ui_element == mazos:

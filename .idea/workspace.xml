@@ -5,16 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="105480ff-3270-4bc9-9de3-c8f50ab7e6e4" name="Changes" comment="Ya guarda los jugadores con sus mazos creados">
-      <change beforePath="$PROJECT_DIR$/.idea/PowerDeck.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PowerDeck.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Cardlogic.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Cardlogic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/players.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/managers/AdminDataManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/managers/AdminDataManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/managers/CardDataManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/managers/CardDataManager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/managers/playerDataManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/managers/playerDataManager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/Album.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Album.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/adminwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/adminwindows.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/playerwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/playerwindows.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +42,9 @@
     &quot;accountId&quot;: &quot;a963892e-7837-41e6-aa88-61848ee38971&quot;
   }
 }</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
@@ -61,7 +62,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "Segunda-separación",
-    "last_opened_file_path": "D:/PowerDeck/Segunda/PowerDeck",
+    "last_opened_file_path": "D:/PowerDeck/firstmatch",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -161,6 +162,11 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="40fdf455-ddd3-463b-bd93-796cf4bb0e25">
+          <value>
+            <State />
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -178,6 +184,11 @@
             </State>
           </value>
         </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="40fdf455-ddd3-463b-bd93-796cf4bb0e25" value="TOOL_WINDOW" />
       </map>
     </option>
     <option name="RECENT_FILTERS">

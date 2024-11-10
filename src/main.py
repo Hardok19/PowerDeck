@@ -138,10 +138,10 @@ def newUser():
                     continue
 
                 for player in players:
-                    if player[0] == entryname.get_text() or player[3] == entrycorreo.get_text():
+                    if player.name == entryname.get_text() or player.email == entrycorreo.get_text():
                         puedeasignar = False
                         mostrar_ventana_advertencia(manager, "El correo o el nombre ya existe")
-                        tempplayer = []
+                        tempplayer = None
                         break
 
 
@@ -149,7 +149,7 @@ def newUser():
                     players.append(tempplayer[1])
                     save_players(players)
                     manager.clear_and_reset()
-                    mostrar_cardsforuser(tempplayer[1][5], manager)
+                    mostrar_cardsforuser(tempplayer[1].album, manager)
                     ejecutando = False
 
 
@@ -211,16 +211,17 @@ def loguear():
                 i = 0
                 for player in players:
                     i += 1
-                    if user == "admin" and password == "admin":
-                        manager.clear_and_reset()
-                        admenu(manager, album, CARTAS_CREADAS)
-                        ejecutando = False
-                        begin()
-                    if player[0] == user or player[4] == user and player[4] == password:
-                        manager.clear_and_reset()
-                        playermenu(player, i, manager, players)
-                        ejecutando = False
-                        begin()
+                    if player.name == user or player.email == user and player.password == password:
+                        if player.esadmin == 0:
+                            manager.clear_and_reset()
+                            playermenu(player, i, manager, players)
+                            ejecutando = False
+                            begin()
+                        else:
+                            manager.clear_and_reset()
+                            admenu(manager, album, CARTAS_CREADAS)
+                            ejecutando = False
+                            begin()
                 mostrar_ventana_advertencia(manager, "Información incorrecta")
             manager.process_events(evento)
 
@@ -240,7 +241,6 @@ def loguear():
 #Programa principal
 def main():
     pygame.display.set_caption("Sistema de Gestión de Cartas")
-    #admenu(manager, album, CARTAS_CREADAS)
     begin()
     pygame.quit()
 
