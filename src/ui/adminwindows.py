@@ -1,10 +1,10 @@
 import pygame
 import pygame_gui
-import PowerDeck.src.utils.ImageHandler
-from PowerDeck.src.models.Carta import Carta
-import PowerDeck.src.managers.CardDataManager
-from PowerDeck.src.logic.Cardlogic import svariant, isvalid, getatr
-from PowerDeck.src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_ventana_listo, mostrar_album
+import src.utils.ImageHandler
+from src.models.Carta import Carta
+import src.managers.CardDataManager
+from src.logic.Cardlogic import svariant, isvalid, getatr
+from src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_ventana_listo, mostrar_album
 
 
 

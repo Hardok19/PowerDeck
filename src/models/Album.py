@@ -1,6 +1,6 @@
-from PowerDeck.src.models.Carta import Carta
+from src.models.Carta import Carta
 import json
-from PowerDeck.src.managers.CardDataManager import cargar_cartas_desde_json
+from src.managers.CardDataManager import cargar_cartas_desde_json
 jso = json.JSONDecoder()
 
 

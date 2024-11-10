@@ -1,12 +1,12 @@
 # main.py
 import pygame
 import pygame_gui
-from PowerDeck.src.models.Album import Album
-from PowerDeck.src.managers import CardDataManager
-from PowerDeck.src.ui.playerwindows import mostrar_cardsforuser, addplayer, playermenu
-from PowerDeck.src.ui.Gwindows import mostrar_ventana_advertencia
-from PowerDeck.src.ui.adminwindows import admenu
-from PowerDeck.src.managers.playerDataManager import save_players, load_players
+from src.models.Album import Album
+from src.managers import CardDataManager
+from src.ui.playerwindows import mostrar_cardsforuser, addplayer, playermenu
+from src.ui.Gwindows import mostrar_ventana_advertencia
+from src.ui.adminwindows import admenu
+from src.managers.playerDataManager import save_players, load_players
 
 
 pygame.init()

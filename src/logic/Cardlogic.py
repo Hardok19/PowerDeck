@@ -1,4 +1,4 @@
-from PowerDeck.src.managers import CardDataManager
+from src.managers import CardDataManager
 
 
 # Función para verificar que los valores de atributos estén en el rango permitido

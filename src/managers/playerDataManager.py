@@ -1,5 +1,5 @@
 import json
-from PowerDeck.src.models.Album import playerAlbum
+from src.models.Album import playerAlbum
 
 
 

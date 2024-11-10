@@ -1,5 +1,5 @@
 import json
-from PowerDeck.src.models.Carta import Carta
+from src.models.Carta import Carta
 import os
 import random
 
