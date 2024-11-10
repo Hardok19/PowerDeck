@@ -8,18 +8,21 @@ from src.managers.playerDataManager import save_players
 from src.models.player import player
 from src.models.Carta import generar_llave_identificadora
 
-# Definimos algunas constantes
-ANCHO_VENTANA = 1366
-ALTO_VENTANA = 720
-FPS = 60
+from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CARTAS_CREADAS, album, players
+
 cantidad_cartas = 10  # Configurable, cantidad de cartas iniciales
 
 
-def addplayer(name, alias, pais, correo, contra, album):
+def addplayer(name, alias, pais, correo, contra, album, isadmin):
     mensaje = ""
     result = True
     dar = True
     patron = r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$'
+
+    grado = 0 #grado de permisos, 1 para admin 0 para player
+    if isadmin: grado = 1
+
+
 
     # Validaciones de entrada
     if pais == "":
@@ -45,13 +48,15 @@ def addplayer(name, alias, pais, correo, contra, album):
         cartas_iniciales = asignar_cartas_iniciales(album, cantidad_cartas=cantidad_cartas)
         albumplayer = playerAlbum(0)
 
-        # Agregar las cartas iniciales al álbum del jugador
-        for carta in cartas_iniciales:
-            albumplayer.add(carta)
+
+        if not isadmin:
+            # Agregar las cartas iniciales al álbum del jugador
+            for carta in cartas_iniciales:
+                albumplayer.add(carta)
 
         mazos = []
         print(f"Cartas iniciales asignadas al jugador {name}: {cartas_iniciales}")
-        TEMPplayer = player(name, alias, pais, correo, contra, "", 0, albumplayer, mazos)
+        TEMPplayer = player(name, alias, pais, correo, contra, "", grado, albumplayer, mazos)
         # Mostrar mensaje de éxito
         mensaje = "Jugador registrado exitosamente"
         return result, TEMPplayer, mensaje
@@ -266,7 +271,6 @@ def vermazos(indexP, players):
     font = pygame.font.Font(None, 36)
     reloj = pygame.time.Clock()
     ejecutando = True
-
     albumes = player.mazos
 
     while ejecutando:
@@ -277,12 +281,12 @@ def vermazos(indexP, players):
                 ejecutando = False
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                for i, (nombre, album) in enumerate(albumes):
+                for i, (nombre, album, llave) in enumerate(albumes):
                     rect = pygame.Rect(50, 50 + i * 40, 200, 30)
                     if rect.collidepoint(mouse_pos):
                         mostrar_album(album)
 
-        for i, (nombre, album) in enumerate(albumes):
+        for i, (nombre, album, llave) in enumerate(albumes):
             valid = "Válido" if album.albumvalid() else "Inválido"
             texto = font.render(nombre, True, (255, 255, 255))
             valido = font.render(valid, True, (255, 255, 255))
@@ -345,6 +349,97 @@ def playermenu(player, indexP, manager, players):
         # Actualización y renderizado
         manager.update(tiempo_delta)
         pantalla.fill((0, 25, 50))  # Fondo azul oscuro
+        manager.draw_ui(pantalla)
+
+        pygame.display.flip()
+    manager.clear_and_reset()
+
+def newUser(isadmin):
+    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+    font = pygame.font.SysFont(None, 30)
+    name = font.render("Nombre de usuario", True, (100, 100, 255))
+    Alias = font.render("Alias", True, (100, 100, 255))
+    pais = font.render("País", True, (100, 100, 255))
+    correo = font.render("Correo", True, (100, 100, 255))
+    contra = font.render("Contraseña", True, (100, 100, 255))
+
+    entryname = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((68, 110), (300, 30)),
+                                                         manager=manager)
+    entryAlias = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((68, 310), (300, 30)),
+                                                         manager=manager)
+
+    paisentry = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((68, 510), (200, 30)),
+                                                      starting_option="",
+                                                      options_list=["", "Argentina", "Perú", "Uruguay", "México", "Costa Rica", "Bolivia", ],
+                                                      manager=manager)
+
+    entrycorreo = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((798, 110), (300, 30)),
+                                                         manager=manager)
+
+    entrycontra = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((798, 310), (300, 30)),
+                                                         manager=manager)
+    entrycontra.set_text_hidden()
+
+    registrarse = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect(825, 550, 250, 50),
+        text='Registrarse',
+        manager=manager
+    )
+    country = ""
+
+
+    reloj = pygame.time.Clock()
+    ejecutando = True
+    while ejecutando:
+        puedeasignar = True
+        tiempo_delta = reloj.tick(FPS) / 1000.0
+
+        # Event handling
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                ejecutando = False
+
+            if evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
+                if evento.ui_element == paisentry:
+                    country = evento.text
+
+            if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == registrarse:
+                print(album.obtener_cartas())
+                tempplayer = addplayer(entryname.get_text(), entryAlias.get_text(), country, entrycorreo.get_text(), entrycontra.get_text(), album, isadmin)
+                if not tempplayer[0]:
+                    mostrar_ventana_advertencia(manager, tempplayer[2])
+                    continue
+
+                for player in players:
+                    if player.name == entryname.get_text() or player.email == entrycorreo.get_text():
+                        puedeasignar = False
+                        mostrar_ventana_advertencia(manager, "El correo o el nombre ya existe")
+                        tempplayer = None
+                        break
+
+
+                if puedeasignar:
+                    players.append(tempplayer[1])
+                    save_players(players)
+                    manager.clear_and_reset()
+                    if not isadmin:mostrar_cardsforuser(tempplayer[1].album, manager)
+                    ejecutando = False
+
+
+
+            manager.process_events(evento)
+
+
+
+        # Update and render elements
+        manager.update(tiempo_delta)
+        pantalla.fill((0, 25, 50))  # Dark blue background
+        pantalla.blit(name, name.get_rect(topleft=(70, 70)))
+        pantalla.blit(Alias, Alias.get_rect(topleft=(70, 270)))
+        pantalla.blit(pais, pais.get_rect(topleft=(70, 470)))
+        pantalla.blit(correo, correo.get_rect(topleft=(800, 70)))
+        pantalla.blit(contra, contra.get_rect(topleft=(800, 270)))
+
         manager.draw_ui(pantalla)
 
         pygame.display.flip()

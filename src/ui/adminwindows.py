@@ -5,17 +5,14 @@ from src.models.Carta import Carta
 from src.logic.Cardlogic import svariant, isvalid, getatr
 from src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_ventana_listo, mostrar_album
 from src.utils import ImageHandler
-
-# Definimos algunas constantes
-ANCHO_VENTANA = 1366
-ALTO_VENTANA = 720
-FPS = 60
+from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CARTAS_CREADAS, album
+from src.ui.playerwindows import newUser
 
 
 
 
 # Función para crear las entradas de atributos en la interfaz de usuario
-def crear_atributos(manager):
+def crear_atributos():
     atributos = ['Poder', 'Velocidad', 'Magia', 'Defensa', 'Inteligencia', 'Altura',
                  'Fuerza', 'Agilidad', 'Salto', 'Resistencia', 'Flexibilidad',
                  'Explosividad', 'Carisma', 'Habilidad', 'Balance', 'Sabiduría',
@@ -52,7 +49,7 @@ def crear_atributos(manager):
 
     return atributo_entries, atributos
 # Función para crear la ventana de creación de cartas
-def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
+def crear_ventana_crear_carta():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     pygame.display.set_caption("Crear Carta")
 
@@ -103,7 +100,7 @@ def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
                                                       manager=manager)
 
     # Crear atributos y obtener sus entradas
-    atributo_entries, atributos = crear_atributos(manager)
+    atributo_entries, atributos = crear_atributos()
 
     # Botones
     boton_crear = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 500), (150, 50)),
@@ -192,7 +189,7 @@ def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
                 mostrar_ventana_listo(manager)
 
                 ejecutando = False
-                crear_ventana_crear_carta(manager, CARTAS_CREADAS)
+                crear_ventana_crear_carta()
 
 
             manager.process_events(evento)
@@ -205,7 +202,7 @@ def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
         pygame.display.update()
 
 #Función para el menú de administración
-def admenu(manager, album, CARTAS_CREADAS):
+def admenu():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     # Botones para las diferentes funcionalidades
     boton_crear_carta = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 50), (200, 50)),
@@ -214,6 +211,9 @@ def admenu(manager, album, CARTAS_CREADAS):
 
     boton_ver_album = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 150), (200, 50)),
                                                    text='Ver Álbum',
+                                                   manager=manager)
+    boton_crear_admin = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 250), (200, 50)),
+                                                   text='Crear Admin',
                                                    manager=manager)
 
     reloj = pygame.time.Clock()
@@ -229,13 +229,20 @@ def admenu(manager, album, CARTAS_CREADAS):
             if evento.type == pygame_gui.UI_BUTTON_PRESSED:
                 if evento.ui_element == boton_crear_carta:
                     manager.clear_and_reset()
-                    crear_ventana_crear_carta(manager, CARTAS_CREADAS)
+                    crear_ventana_crear_carta()
                     ejecutando = False
-                    admenu(manager, album, CARTAS_CREADAS)
+                    admenu()
                 elif evento.ui_element == boton_ver_album:
                     album.clean()
                     album.getcartascreadas()
                     mostrar_album(album)
+                elif evento.ui_element == boton_crear_admin:
+                    manager.clear_and_reset()
+                    newUser(True)
+                    ejecutando = False
+                    admenu()
+
+
 
             manager.process_events(evento)
 

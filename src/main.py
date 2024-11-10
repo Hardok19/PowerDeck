@@ -1,32 +1,18 @@
 # main.py
 import pygame
 import pygame_gui
-from src.models.Album import Album
-from src.managers import CardDataManager
-from src.ui.playerwindows import mostrar_cardsforuser, addplayer, playermenu
+from src.ui.playerwindows import mostrar_cardsforuser, addplayer, playermenu, newUser
 from src.ui.Gwindows import mostrar_ventana_advertencia
 from src.ui.adminwindows import admenu
 from src.managers.playerDataManager import save_players, load_players
+from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CARTAS_CREADAS, album, players
 
 
 pygame.init()
 
-# Definimos algunas constantes
-ANCHO_VENTANA = 1366
-ALTO_VENTANA = 720
-FPS = 60
 
-#Manager
-manager = pygame_gui.UIManager((ANCHO_VENTANA, ALTO_VENTANA))
 
-# Cargar las cartas al inicio
-CARTAS_CREADAS = CardDataManager.cargar_cartas_desde_json()
-album = Album()
 
-# Inicializar jugadores cargados desde JSON
-players = load_players()
-if not players:
-    players = []
 
 def begin():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
@@ -62,12 +48,12 @@ def begin():
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
-
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == registrarse:
                 registrarse.kill()  # Elimina el botón "Registrarse"
                 login.kill()  # Elimina el botón "Login"
                 ejecutando = False  # Salimos del bucle para terminar "begin"
-                newUser()
+                newUser(False)
+                begin()
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == login:
                 registrarse.kill()  # Elimina el botón "Registrarse"
                 login.kill()  # Elimina el botón "Login"
@@ -81,97 +67,6 @@ def begin():
         manager.draw_ui(pantalla)
         pygame.display.flip()
 
-def newUser():
-    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
-    font = pygame.font.SysFont(None, 30)
-    name = font.render("Nombre de usuario", True, (100, 100, 255))
-    Alias = font.render("Alias", True, (100, 100, 255))
-    pais = font.render("País", True, (100, 100, 255))
-    correo = font.render("Correo", True, (100, 100, 255))
-    contra = font.render("Contraseña", True, (100, 100, 255))
-
-    entryname = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((68, 110), (300, 30)),
-                                                         manager=manager)
-    entryAlias = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((68, 310), (300, 30)),
-                                                         manager=manager)
-
-    paisentry = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((68, 510), (200, 30)),
-                                                      starting_option="",
-                                                      options_list=["", "Argentina", "Perú", "Uruguay", "México", "Costa Rica", "Bolivia", ],
-                                                      manager=manager)
-
-    entrycorreo = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((798, 110), (300, 30)),
-                                                         manager=manager)
-
-    entrycontra = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((798, 310), (300, 30)),
-                                                         manager=manager)
-    entrycontra.set_text_hidden()
-
-    registrarse = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect(825, 550, 250, 50),
-        text='Registrarse',
-        manager=manager
-    )
-    country = ""
-
-
-    reloj = pygame.time.Clock()
-    ejecutando = True
-    while ejecutando:
-        puedeasignar = True
-        tiempo_delta = reloj.tick(FPS) / 1000.0
-
-        # Event handling
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                ejecutando = False
-
-            if evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
-                if evento.ui_element == paisentry:
-                    country = evento.text
-
-            if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == registrarse:
-                print(album.obtener_cartas())
-                tempplayer = addplayer(entryname.get_text(), entryAlias.get_text(), country, entrycorreo.get_text(), entrycontra.get_text(), album)
-                if not tempplayer[0]:
-                    mostrar_ventana_advertencia(manager, tempplayer[2])
-                    continue
-
-                for player in players:
-                    if player.name == entryname.get_text() or player.email == entrycorreo.get_text():
-                        puedeasignar = False
-                        mostrar_ventana_advertencia(manager, "El correo o el nombre ya existe")
-                        tempplayer = None
-                        break
-
-
-                if puedeasignar:
-                    players.append(tempplayer[1])
-                    save_players(players)
-                    manager.clear_and_reset()
-                    mostrar_cardsforuser(tempplayer[1].album, manager)
-                    ejecutando = False
-
-
-
-            manager.process_events(evento)
-
-
-
-        # Update and render elements
-        manager.update(tiempo_delta)
-        pantalla.fill((0, 25, 50))  # Dark blue background
-        pantalla.blit(name, name.get_rect(topleft=(70, 70)))
-        pantalla.blit(Alias, Alias.get_rect(topleft=(70, 270)))
-        pantalla.blit(pais, pais.get_rect(topleft=(70, 470)))
-        pantalla.blit(correo, correo.get_rect(topleft=(800, 70)))
-        pantalla.blit(contra, contra.get_rect(topleft=(800, 270)))
-
-        manager.draw_ui(pantalla)
-
-        pygame.display.flip()
-    manager.clear_and_reset()
-    begin()
 
 
 def loguear():
@@ -219,7 +114,7 @@ def loguear():
                             begin()
                         else:
                             manager.clear_and_reset()
-                            admenu(manager, album, CARTAS_CREADAS)
+                            admenu()
                             ejecutando = False
                             begin()
                 mostrar_ventana_advertencia(manager, "Información incorrecta")
