@@ -11,9 +11,6 @@ from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CART
 pygame.init()
 
 
-
-
-
 def begin():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     font = pygame.font.SysFont(None, 50)

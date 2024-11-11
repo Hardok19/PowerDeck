@@ -7,9 +7,11 @@ from src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_ventana_listo, 
 from src.utils import ImageHandler
 from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CARTAS_CREADAS, album
 from src.ui.playerwindows import newUser
+from src.matchmaking.server import start_server, stop
+import threading
 
 
-
+HILO4server = 1
 
 # Función para crear las entradas de atributos en la interfaz de usuario
 def crear_atributos():
@@ -203,6 +205,7 @@ def crear_ventana_crear_carta():
 
 #Función para el menú de administración
 def admenu():
+    global HILO4server
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     # Botones para las diferentes funcionalidades
     boton_crear_carta = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 50), (200, 50)),
@@ -215,6 +218,9 @@ def admenu():
     boton_crear_admin = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 250), (200, 50)),
                                                    text='Crear Admin',
                                                    manager=manager)
+    boton_matchmaking = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 350), (200, 50)),
+                                                   text='Start matchmaking',
+                                                   manager=manager)
 
     reloj = pygame.time.Clock()
     ejecutando = True
@@ -224,6 +230,8 @@ def admenu():
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
+                if HILO4server.is_alive():
+                    stop()
                 ejecutando = False
                 manager.clear_and_reset()
             if evento.type == pygame_gui.UI_BUTTON_PRESSED:
@@ -241,6 +249,12 @@ def admenu():
                     newUser(True)
                     ejecutando = False
                     admenu()
+                elif evento.ui_element == boton_matchmaking:
+                    HILO4server = threading.Thread(target=start_server, args=(5555,))
+                    HILO4server.start()
+                    boton_matchmaking.kill()
+                    mostrar_ventana_advertencia(manager, "Server de matchmaking iniciado")
+
 
 
 

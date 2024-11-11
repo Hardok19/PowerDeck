@@ -1,3 +1,5 @@
+import threading
+import time
 import pygame
 import pygame_gui
 from src.models.Album import playerAlbum
@@ -7,11 +9,11 @@ from src.managers.CardDataManager import asignar_cartas_iniciales
 from src.managers.playerDataManager import save_players
 from src.models.player import player
 from src.models.Carta import generar_llave_identificadora
-
-from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CARTAS_CREADAS, album, players
+from src.matchmaking.client import iniciar_emparejamiento
+from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, album, players
 
 cantidad_cartas = 10  # Configurable, cantidad de cartas iniciales
-
+HILO4CLIENT = 1
 
 def addplayer(name, alias, pais, correo, contra, album, isadmin):
     mensaje = ""
@@ -300,6 +302,7 @@ def vermazos(indexP, players):
 
 
 def playermenu(player, indexP, manager, players):
+    global HILO4CLIENT
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
 
     mazos = pygame_gui.elements.UIButton(
@@ -340,9 +343,10 @@ def playermenu(player, indexP, manager, players):
                     playermenu(player, indexP, manager, players)
                 elif evento.ui_element == buscar_partida_btn:
                     manager.clear_and_reset()
-                    #buscar_partida(player, indexP, manager, players)
                     ejecutando = False
+                    buscandomatch()
                     playermenu(player, indexP, manager, players)
+
 
             manager.process_events(evento)
 
@@ -353,6 +357,47 @@ def playermenu(player, indexP, manager, players):
 
         pygame.display.flip()
     manager.clear_and_reset()
+
+
+# Variable para controlar el mensaje de estado
+mensaje = "Buscando partida..."  # Mensaje inicial
+partida_encontrada = threading.Event()  # Evento para detectar cuando se encuentre la partida
+
+
+def buscandomatch():
+    global mensaje
+    pygame.init()
+    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+    reloj = pygame.time.Clock()
+    ejecutando = True
+
+    # Iniciar hilo de emparejamiento
+    hilo_emparejamiento = threading.Thread(target=iniciar_emparejamiento, args=(partida_encontrada,))
+    hilo_emparejamiento.start()
+
+    while ejecutando:
+        tiempo_delta = reloj.tick(FPS) / 1000.0
+
+        # Manejo de eventos
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                ejecutando = False
+
+        # Cambiar mensaje cuando se encuentre partida
+        if partida_encontrada.is_set():
+            mensaje = "Partida encontrada"
+
+        # Actualización y renderizado
+        pantalla.fill((0, 25, 100))  # Fondo azul oscuro
+
+        # Renderizar mensaje en pantalla
+        font = pygame.font.Font(None, 36)
+        texto = font.render(mensaje, True, (255, 255, 255))
+        pantalla.blit(texto, (ANCHO_VENTANA // 2 - texto.get_width() // 2, ALTO_VENTANA // 2))
+
+        pygame.display.flip()
+
+
 
 def newUser(isadmin):
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
