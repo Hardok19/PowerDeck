@@ -14,6 +14,7 @@ from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, albu
 
 cantidad_cartas = 10  # Configurable, cantidad de cartas iniciales
 HILO4CLIENT = 1
+mazo_player= None
 
 def addplayer(name, alias, pais, correo, contra, album, isadmin):
     mensaje = ""
@@ -304,6 +305,10 @@ def vermazos(indexP, players):
 def playermenu(player, indexP, manager, players):
     global HILO4CLIENT
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+    nombres_mazos =["Seleccione mazo"]
+    for (nombre,mazo,llave) in player.mazos:
+        print(nombre)
+        nombres_mazos.append(nombre)
 
     mazos = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect(508, 200, 350, 100),
@@ -320,6 +325,13 @@ def playermenu(player, indexP, manager, players):
         text='Buscar Partida',
         manager=manager
     )
+    seleccion_mazo = pygame_gui.elements.UIDropDownMenu(
+        options_list=nombres_mazos,
+        starting_option=nombres_mazos[0],
+        relative_rect=pygame.Rect((900, 600), (200, 50)),
+        manager=manager
+    )
+
 
     reloj = pygame.time.Clock()
     ejecutando = True
@@ -346,7 +358,10 @@ def playermenu(player, indexP, manager, players):
                     ejecutando = False
                     buscandomatch()
                     playermenu(player, indexP, manager, players)
-
+            if evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
+                if evento.ui_element == seleccion_mazo:
+                    selected_option = evento.text  # Guardar el valor seleccionado
+                    print(f"Opción seleccionada: {selected_option}")
 
             manager.process_events(evento)
 
