@@ -12,7 +12,7 @@ from src.models.Carta import generar_llave_identificadora
 from src.matchmaking.client import iniciar_emparejamiento
 from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, album, players
 
-cantidad_cartas = 10  # Configurable, cantidad de cartas iniciales
+cantidad_cartas = 5  # Configurable, cantidad de cartas iniciales
 HILO4CLIENT = 1
 mazo_player= None
 
@@ -20,12 +20,10 @@ def addplayer(name, alias, pais, correo, contra, album, isadmin):
     mensaje = ""
     result = True
     dar = True
-    patron = r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$'
+    email_pattern = r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$'
+    password_pattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$'
 
-    grado = 0 #grado de permisos, 1 para admin 0 para player
-    if isadmin: grado = 1
-
-
+    grado = 1 if isadmin else 0 #grado de permisos, 1 para admin 0 para player
 
     # Validaciones de entrada
     if pais == "":
@@ -37,12 +35,19 @@ def addplayer(name, alias, pais, correo, contra, album, isadmin):
         dar = False
         result = False
 
-    if not len(name) in range(4, 12) or not len(alias) in range(4, 12):
-        mensaje = "El nombre y alias deben estar entre 4 y 12 caracteres"
+    if not len(alias) in range(4, 12):
+        mensaje = "El alias debe tener entre 4 y 12 caracteres"
         dar = False
         result = False
-    if not re.match(patron, correo):
+
+    if not re.match(email_pattern, correo):
         mensaje = "Inserte un email válido"
+        dar = False
+        result = False
+
+    #Aquí añadimos la validación de la contraseña**
+    if not re.match(password_pattern, contra):
+        mensaje = "La contraseña debe ser alfanumérica, contener al menos una letra, un número y tener mínimo 6 caracteres"
         dar = False
         result = False
 
@@ -471,9 +476,9 @@ def newUser(isadmin):
                     continue
 
                 for player in players:
-                    if player.name == entryname.get_text() or player.email == entrycorreo.get_text():
+                    if player.alias == entryAlias.get_text() or player.email == entrycorreo.get_text():
                         puedeasignar = False
-                        mostrar_ventana_advertencia(manager, "El correo o el nombre ya existe")
+                        mostrar_ventana_advertencia(manager, "El correo o el alias ya existe")
                         tempplayer = None
                         break
 
