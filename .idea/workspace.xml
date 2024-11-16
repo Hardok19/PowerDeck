@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="105480ff-3270-4bc9-9de3-c8f50ab7e6e4" name="Changes" comment="Ya guarda los jugadores con sus mazos creados">
+    <list default="true" id="105480ff-3270-4bc9-9de3-c8f50ab7e6e4" name="Changes" comment="Solucionados errores antiguos (numeros negativos en atributos y el Si y true)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/Cardlogic.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Cardlogic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/cards.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/cards.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/managers/CardDataManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/managers/CardDataManager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/Carta.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Carta.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/playerwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/playerwindows.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +155,7 @@
       <workItem from="1731362376962" duration="750000" />
       <workItem from="1731373235752" duration="1433000" />
       <workItem from="1731460285052" duration="2127000" />
-      <workItem from="1731728181340" duration="626000" />
+      <workItem from="1731728181340" duration="3414000" />
     </task>
     <task id="LOCAL-00001" summary="Algunos comentarios y probabilidades de las cartas">
       <option name="closed" value="true" />
@@ -211,7 +213,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731111182261</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Solucionados errores antiguos (numeros negativos en atributos y el Si y true)">
+      <option name="closed" value="true" />
+      <created>1731729252813</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1731729252813</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,7 +285,8 @@
     <MESSAGE value="agregando cartas" />
     <MESSAGE value="Guardar jugadores" />
     <MESSAGE value="Ya guarda los jugadores con sus mazos creados" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ya guarda los jugadores con sus mazos creados" />
+    <MESSAGE value="Solucionados errores antiguos (numeros negativos en atributos y el Si y true)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Solucionados errores antiguos (numeros negativos en atributos y el Si y true)" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -287,6 +298,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PowerDeck$playerwindows.coverage" NAME="playerwindows Coverage Results" MODIFIED="1731461644108" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/ui" />
     <SUITE FILE_PATH="coverage/PowerDeck$client.coverage" NAME="client Coverage Results" MODIFIED="1731362786455" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/matchmaking" />
-    <SUITE FILE_PATH="coverage/PowerDeck$main.coverage" NAME="main Coverage Results" MODIFIED="1731728812195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/PowerDeck$main.coverage" NAME="main Coverage Results" MODIFIED="1731731622788" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>

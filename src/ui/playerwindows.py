@@ -12,7 +12,7 @@ from src.models.Carta import generar_llave_identificadora
 from src.matchmaking.client import iniciar_emparejamiento
 from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, album, players
 
-cantidad_cartas = 10  # Configurable, cantidad de cartas iniciales
+cantidad_cartas = 5  # Configurable, cantidad de cartas iniciales
 HILO4CLIENT = 1
 mazo_player= None
 
@@ -471,9 +471,9 @@ def newUser(isadmin):
                     continue
 
                 for player in players:
-                    if player.name == entryname.get_text() or player.email == entrycorreo.get_text():
+                    if player.alias == entryAlias.get_text() or player.email == entrycorreo.get_text():
                         puedeasignar = False
-                        mostrar_ventana_advertencia(manager, "El correo o el nombre ya existe")
+                        mostrar_ventana_advertencia(manager, "El correo o el alias ya existe")
                         tempplayer = None
                         break
 
