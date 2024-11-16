@@ -135,7 +135,7 @@ def asignar_cartas_iniciales(album, cantidad_cartas=4):
         # Seleccionar una carta del tipo seleccionado
         cartas_disponibles = [
             carta for carta in cartas_por_tipo[tipo_carta]
-            if carta.nombre_personaje not in tipos_asignados
+            if carta.nombre_personaje not in tipos_asignados and not carta.get_isvariante()
         ]
 
         if cartas_disponibles:

@@ -1,4 +1,3 @@
-# main.py
 import pygame
 import pygame_gui
 from src.ui.playerwindows import mostrar_cardsforuser, addplayer, playermenu, newUser
@@ -69,7 +68,7 @@ def begin():
 def loguear():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     font = pygame.font.SysFont(None, 30)
-    name = font.render("Nombre de usuario o correo", True, (100, 100, 255))
+    name = font.render("Alias o correo", True, (100, 100, 255))
     contra = font.render("Contraseña", True, (100, 100, 255))
     entryname = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((533, 250), (300, 30)),
                                                          manager=manager)
@@ -103,7 +102,7 @@ def loguear():
                 i = 0
                 for player in players:
                     i += 1
-                    if player.name == user or player.email == user and player.password == password:
+                    if (player.alias == user or player.email == user) and player.password == password:
                         if player.esadmin == 0:
                             manager.clear_and_reset()
                             playermenu(player, i, manager, players)
