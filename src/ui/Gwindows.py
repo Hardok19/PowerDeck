@@ -8,11 +8,12 @@ from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CART
 # Función para mostrar una ventana de advertencia con un mensaje personalizado
 def mostrar_ventana_advertencia(manager, mensaje):
     ventana_advertencia = pygame_gui.windows.UIMessageWindow(
-        rect=pygame.Rect((500, 300), (300, 200)),  # Tamaño y posición de la ventana
+        rect=pygame.Rect((500, 300), (300, 200)),
         html_message=f'<b>{mensaje}</b>',
         manager=manager,
         window_title="Advertencia"
-)
+    )
+    return ventana_advertencia  # Ahora devuelve el objeto de la ventana
 
 # Función para mostrar una ventana de confirmación de éxito
 def mostrar_ventana_listo(manager):

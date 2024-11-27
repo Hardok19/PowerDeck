@@ -2,7 +2,7 @@ import re
 from src.models.player import player
 from src.managers.CardDataManager import asignar_cartas_iniciales
 from src.models.Album import playerAlbum
-from src.models.Carta import generar_llave_identificadora
+
 
 def validate_player_data(name, alias, pais, correo, contra, isadmin):
     mensaje = ""

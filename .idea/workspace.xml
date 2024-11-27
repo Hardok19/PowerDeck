@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff8f3ceb-be45-47ed-9b6b-13d43766aa42" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/logic/playerlogic.py" afterDir="false" />
+    <list default="true" id="ff8f3ceb-be45-47ed-9b6b-13d43766aa42" name="Changes" comment="En playerwindows tendrá el código relacionado con la interfaz gráfica y eventos de usuario y en playerlogic tendrá toda la lógica relacionada con la validación de datos, creación de objetos, asignación de cartas, etc.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/managers/CardDataManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/managers/CardDataManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/adminwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/adminwindows.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/players.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logic/playerlogic.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/playerlogic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/matchmaking/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/matchmaking/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/Gwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Gwindows.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/playerwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/playerwindows.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,16 +55,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Separar-interfaz-y-logica",
-    "last_opened_file_path": "D:/PowerDeck/octava/PowerDeck"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Separar-interfaz-y-logica&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Usuario/PycharmProjects/PowerDeck&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="main" />
@@ -110,6 +111,15 @@
       <option name="presentableId" value="Default" />
       <updated>1731739445767</updated>
     </task>
+    <task id="LOCAL-00001" summary="En playerwindows tendrá el código relacionado con la interfaz gráfica y eventos de usuario y en playerlogic tendrá toda la lógica relacionada con la validación de datos, creación de objetos, asignación de cartas, etc.">
+      <option name="closed" value="true" />
+      <created>1732673046814</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1732673046815</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -123,7 +133,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="firstmatchmaking" />
+                        <option value="Separar-interfaz-y-logica" />
                       </list>
                     </value>
                   </entry>
@@ -136,6 +146,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="En playerwindows tendrá el código relacionado con la interfaz gráfica y eventos de usuario y en playerlogic tendrá toda la lógica relacionada con la validación de datos, creación de objetos, asignación de cartas, etc." />
+    <option name="LAST_COMMIT_MESSAGE" value="En playerwindows tendrá el código relacionado con la interfaz gráfica y eventos de usuario y en playerlogic tendrá toda la lógica relacionada con la validación de datos, creación de objetos, asignación de cartas, etc." />
   </component>
 </project>

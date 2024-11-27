@@ -4,8 +4,10 @@ import pygame_gui
 from src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_album
 from src.managers.playerDataManager import save_players
 from src.models.Carta import generar_llave_identificadora
-from src.logic.playerlogic import validate_player_data, create_player, create_new_deck
 from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, album, players, cantidad_cartas
+from src.logic.playerlogic import validate_player_data, create_player, create_new_deck
+from src.matchmaking.client import iniciar_emparejamiento
+from src.ui.windowsconfig import manager
 
 def mostrar_cardsforuser(playeralbum, manager):
     pantalla = pygame.display.set_mode((1000, 600))
@@ -380,22 +382,46 @@ def buscandomatch():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     reloj = pygame.time.Clock()
     ejecutando = True
-    # Iniciar hilo de emparejamiento
-    hilo_emparejamiento = threading.Thread(target=start_matchmaking, args=(partida_encontrada,))
+    partida_encontrada = threading.Event()  # Crea un evento para el emparejamiento
+
+    # Iniciar hilo de emparejamiento utilizando iniciar_emparejamiento
+    hilo_emparejamiento = threading.Thread(target=iniciar_emparejamiento, args=(partida_encontrada,))
     hilo_emparejamiento.start()
+
+    mostrar_mensaje = False
+    ventana_mensaje = None
+
     while ejecutando:
         tiempo_delta = reloj.tick(FPS) / 1000.0
         # Manejo de eventos
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
-        # Cambiar mensaje cuando se encuentre partida
-        if partida_encontrada.is_set():
-            mensaje = "Partida encontrada"
+            if evento.type == pygame.USEREVENT:
+                if evento.user_type == pygame_gui.UI_WINDOW_CLOSE:
+                    if evento.ui_element == ventana_mensaje:
+                        ventana_mensaje = None
+                        ejecutando = False  # Salimos del bucle cuando se cierra la ventana
+            manager.process_events(evento)
+
+        # Verifica si el emparejamiento ha finalizado
+        if partida_encontrada.is_set() and not mostrar_mensaje:
+            if getattr(partida_encontrada, 'result', False):
+                mensaje = "Partida encontrada"
+                # Aquí podrías iniciar la partida o realizar otras acciones
+                ejecutando = False  # Salimos del bucle si se encontró partida
+            else:
+                mensaje = "No se encontraron oponentes"
+                # Mostrar ventana de advertencia
+                ventana_mensaje = mostrar_ventana_advertencia(manager, mensaje)
+                mostrar_mensaje = True  # Para evitar mostrar múltiples mensajes
+
+        manager.update(tiempo_delta)
         # Actualización y renderizado
         pantalla.fill((0, 25, 100))  # Fondo azul oscuro
         # Renderizar mensaje en pantalla
         font = pygame.font.Font(None, 36)
-        texto = font.render(mensaje, True, (255, 255, 255))
+        texto = font.render("Buscando partida...", True, (255, 255, 255))
         pantalla.blit(texto, (ANCHO_VENTANA // 2 - texto.get_width() // 2, ALTO_VENTANA // 2))
+        manager.draw_ui(pantalla)
         pygame.display.flip()
