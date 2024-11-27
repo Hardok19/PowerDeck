@@ -142,5 +142,32 @@ def asignar_cartas_iniciales(album, cantidad_cartas=4):
             carta_seleccionada = random.choice(cartas_disponibles)
             cartas_asignadas.append(carta_seleccionada)
             tipos_asignados.add(carta_seleccionada.nombre_personaje)  # Marcar el personaje como asignado
-
+            print(f"Carta asignada: {carta_seleccionada.nombre_personaje} - {carta_seleccionada.nombre_variante} - {carta_seleccionada.tipo_carta}")
+        else:
+            # Si no hay cartas disponibles de ese tipo, podemos continuar o manejarlo según sea necesario
+            print(f"No hay cartas disponibles para el tipo {tipo_carta} sin repetir personajes y sin variantes.")
+            continue
     return cartas_asignadas
+
+#Prueba para verificar si las probabilidades sirven
+def probar_asignacion_cartas(album, cantidad_cartas=5, num_simulaciones=1000):
+    resultados = []
+    for _ in range(num_simulaciones):
+        cartas_asignadas = asignar_cartas_iniciales(album, cantidad_cartas)
+        tipos_cartas = [carta.tipo_carta for carta in cartas_asignadas]
+        resultados.extend(tipos_cartas)
+    return resultados
+
+def probar_asignacion_cartas_sin_repetidos_y_variantes(album, cantidad_cartas=4, num_simulaciones=10):
+    for simulacion in range(1, num_simulaciones + 1):
+        print(f"\nSimulación {simulacion}:")
+        cartas_asignadas = asignar_cartas_iniciales(album, cantidad_cartas)
+        personajes_asignados = set()
+        for carta in cartas_asignadas:
+            if carta.nombre_personaje in personajes_asignados:
+                print(f"Error: Personaje repetido {carta.nombre_personaje}")
+            else:
+                personajes_asignados.add(carta.nombre_personaje)
+            if carta.get_isvariante():
+                print(f"Error: Carta variante asignada {carta.nombre_personaje} - {carta.nombre_variante}")
+            print(f"Carta asignada: {carta.nombre_personaje} - {carta.nombre_variante} - {carta.tipo_carta}")

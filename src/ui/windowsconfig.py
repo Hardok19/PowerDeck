@@ -24,3 +24,5 @@ album = Album()
 players = load_players()
 if not players:
     players = []
+
+cantidad_cartas = 5  # Configurable, cantidad de cartas iniciales

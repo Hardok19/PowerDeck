@@ -255,16 +255,11 @@ def admenu():
                     boton_matchmaking.kill()
                     mostrar_ventana_advertencia(manager, "Server de matchmaking iniciado")
 
-
-
-
             manager.process_events(evento)
 
         manager.update(tiempo_delta)
-
         pantalla.fill((0,25, 50))  # Fondo negro
         manager.draw_ui(pantalla)
-
         pygame.display.update()
 
 
