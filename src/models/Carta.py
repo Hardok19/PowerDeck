@@ -44,9 +44,10 @@ class Carta:
         else:
             return True
 
-    # Representación en texto de la carta
+    #Representación en texto de la carta
     def __repr__(self):
         return f"Personaje: {self.nombre_personaje} - Variante: {self.nombre_variante} - Raza: {self.raza}"
+
 
     def to_dict(self):
         return {

@@ -28,6 +28,18 @@ def connect_to_peer(key, server_ip, server_port=5555, max_wait_time=10):
                 return None, None
             pass
 
+
+def listen_to_peer(peer_address):
+    while True:
+        try:
+            data, _ = client.recvfrom(1024)
+            if data:
+                mensaje = data.decode()
+                print(f"Mensaje del par: {mensaje}")
+                # Aquí puedes procesar el mensaje recibido
+        except:
+            break
+
 def iniciar_emparejamiento(partida_encontrada):
     key = "12345"
     server_ip = "127.0.0.1"  # Cambia esto si el servidor está en otra IP
@@ -43,7 +55,11 @@ def iniciar_emparejamiento(partida_encontrada):
     # Emparejamiento exitoso
     partida_encontrada.set()
     partida_encontrada.result = True  # Indicamos que se encontró partida
-
+    # Ahora, establecer conexión con el par
+    peer_address = (client_ip, client_port)
+    # Iniciar hilo para escuchar mensajes
+    hilo_escucha = threading.Thread(target=listen_to_peer, args=(peer_address,))
+    hilo_escucha.start()
 
 def listen(client_socket):
     print("Esperando mensajes...")

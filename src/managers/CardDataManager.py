@@ -75,7 +75,7 @@ def cargar_cartas_desde_json():
                     atributos=carta_dato["atributos"]
                 )
                 cartas.append(carta)
-            print(f"Cartas cargadas desde {archivo}")
+            #print(f"Cartas cargadas desde {archivo}")
             return cartas
     except FileNotFoundError:
         print(f"No se encontró el archivo {archivo}, se retornará una lista vacía.")
