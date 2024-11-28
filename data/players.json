@@ -978,5 +978,16 @@
         "esadmin": 2,
         "album": [],
         "mazos": []
+    },
+    {
+        "name": "control",
+        "alias": "",
+        "country": "",
+        "email": "control@gmail.com",
+        "password": "control1",
+        "llave": "C-XZC4B0S5HXC0-V-ZM2GT1LGH7QB",
+        "esadmin": 1,
+        "album": [],
+        "mazos": []
     }
 ]

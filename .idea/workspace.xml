@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff8f3ceb-be45-47ed-9b6b-13d43766aa42" name="Changes" comment="Se arregló el error cuando no se encuentran oponentes">
+      <change beforePath="$PROJECT_DIR$/.idea/PowerDeck.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PowerDeck.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/players.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/playerlogic.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/playerlogic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/managers/playerDataManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/managers/playerDataManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/adminwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/adminwindows.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/playerwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/playerwindows.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,17 +53,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Separar-interfaz-y-logica",
-    "last_opened_file_path": "C:/Users/Usuario/PycharmProjects/PowerDeck",
-    "settings.editor.selected.configurable": "preferences.general"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Separar-interfaz-y-logica&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Usuario/PycharmProjects/PowerDeck&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="main" />
@@ -87,6 +87,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -159,5 +160,8 @@
     <MESSAGE value="En playerwindows tendrá el código relacionado con la interfaz gráfica y eventos de usuario y en playerlogic tendrá toda la lógica relacionada con la validación de datos, creación de objetos, asignación de cartas, etc." />
     <MESSAGE value="Se arregló el error cuando no se encuentran oponentes" />
     <option name="LAST_COMMIT_MESSAGE" value="Se arregló el error cuando no se encuentran oponentes" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/PowerDeck$main.coverage" NAME="main Coverage Results" MODIFIED="1732784367033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>
