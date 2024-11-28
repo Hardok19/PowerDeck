@@ -262,4 +262,67 @@ def admenu():
         manager.draw_ui(pantalla)
         pygame.display.update()
 
+def admenu_control():
+    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+    # Botones para Administrador de Control
+    boton_reportes = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 50), (200, 50)),
+                                                  text='Ver Reportes',
+                                                  manager=manager)
+    boton_gestion_jugadores = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 150), (200, 50)),
+                                                           text='Gestión de Jugadores',
+                                                           manager=manager)
+    reloj = pygame.time.Clock()
+    ejecutando = True
+    while ejecutando:
+        tiempo_delta = reloj.tick(FPS) / 1000.0
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                ejecutando = False
+                manager.clear_and_reset()
+            if evento.type == pygame_gui.UI_BUTTON_PRESSED:
+                if evento.ui_element == boton_reportes:
+                    mostrar_ventana_advertencia(manager, "Funcionalidad de Reportes no implementada")
+                elif evento.ui_element == boton_gestion_jugadores:
+                    mostrar_ventana_advertencia(manager, "Funcionalidad de Gestión de Jugadores no implementada")
+            manager.process_events(evento)
+        manager.update(tiempo_delta)
+        pantalla.fill((0, 25, 50))
+        manager.draw_ui(pantalla)
+        pygame.display.update()
 
+def admenu_game():
+    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+    # Botones para Administrador de Juego
+    boton_crear_carta = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((50, 50), (200, 50)),
+        text='Crear Carta',
+        manager=manager
+    )
+    boton_ver_album = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((50, 150), (200, 50)),
+        text='Ver Álbum',
+        manager=manager
+    )
+    reloj = pygame.time.Clock()
+    ejecutando = True
+    while ejecutando:
+        tiempo_delta = reloj.tick(FPS) / 1000.0
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                ejecutando = False
+                manager.clear_and_reset()
+            if evento.type == pygame_gui.UI_BUTTON_PRESSED:
+                if evento.ui_element == boton_crear_carta:
+                    manager.clear_and_reset()
+                    crear_ventana_crear_carta()
+                    ejecutando = False
+                    admenu_game()
+                elif evento.ui_element == boton_ver_album:
+                    album.clean()
+                    album.getcartascreadas()
+                    mostrar_album(album)
+            manager.process_events(evento)
+        manager.update(tiempo_delta)
+        pantalla.fill((0, 25, 50))
+        manager.draw_ui(pantalla)
+        pygame.display.update()

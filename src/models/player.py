@@ -7,11 +7,10 @@ class player():
         self.country = country
         self.email = email
         self.password = password
-        self.esadmin = esadmin
-
-        if len(llave) < 4: self.llave = generar_llave_identificadora()
-        else: self.llave = llave
-
+        self.esadmin = esadmin  # 0: Jugador, 1: Admin Control, 2: Admin Juego, 3: Superusuario
+        if len(llave) < 4:
+            self.llave = generar_llave_identificadora()
+        else:
+            self.llave = llave
         self.album = album
         self.mazos = mazos
-

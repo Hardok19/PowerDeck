@@ -964,7 +964,18 @@
         "email": "admin@gmail.com",
         "password": "admin",
         "llave": "C-M1XDDKYNGA60-V-RSUH7JV6GNFI",
-        "esadmin": 1,
+        "esadmin": 3,
+        "album": [],
+        "mazos": []
+    },
+    {
+        "name": "Nancy",
+        "alias": "",
+        "country": "",
+        "email": "nan@gmail.com",
+        "password": "123abc",
+        "llave": "C-0U6YM3XUJE59-V-15YFHR1PBT6W",
+        "esadmin": 2,
         "album": [],
         "mazos": []
     }

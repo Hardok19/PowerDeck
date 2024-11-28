@@ -6,7 +6,7 @@ from src.ui.Gwindows import mostrar_ventana_advertencia
 from src.ui.adminwindows import admenu
 from src.managers.playerDataManager import save_players, load_players
 from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CARTAS_CREADAS, album, players
-
+from src.ui.adminwindows import admenu, admenu_control, admenu_game
 
 pygame.init()
 
@@ -109,7 +109,20 @@ def loguear():
                             playermenu(player, i, manager, players)
                             ejecutando = False
                             begin()
-                        else:
+                        elif player.esadmin == 1:
+                            # Administrador de Control
+                            manager.clear_and_reset()
+                            admenu_control()
+                            ejecutando = False
+                            begin()
+                        elif player.esadmin == 2:
+                            # Administrador de Juego
+                            manager.clear_and_reset()
+                            admenu_game()
+                            ejecutando = False
+                            begin()
+                        elif player.esadmin == 3:
+                            # Superusuario (Admin principal)
                             manager.clear_and_reset()
                             admenu()
                             ejecutando = False

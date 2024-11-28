@@ -5,9 +5,7 @@ from src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_album
 from src.managers.playerDataManager import save_players
 from src.models.Carta import generar_llave_identificadora
 from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, album, players, cantidad_cartas
-from src.logic.playerlogic import validate_player_data, create_player, create_new_deck
-from src.matchmaking.client import iniciar_emparejamiento
-from src.ui.windowsconfig import manager
+from src.logic.playerlogic import validate_player_data, create_player, create_new_deck, validate_admin_data, create_admin
 
 def mostrar_cardsforuser(playeralbum, manager):
     pantalla = pygame.display.set_mode((1000, 600))
@@ -69,61 +67,97 @@ def addplayer(name, alias, pais, correo, contra, isadmin):
     new_player = create_player(name, alias, pais, correo, contra, album, isadmin, cantidad_cartas)
     return True, new_player, "Jugador registrado exitosamente"
 
+def addplayer_admin(name, correo, contra, admin_type):
+    # Validar datos del administrador
+    valid, mensaje = validate_admin_data(name, correo, contra, admin_type)
+    if not valid:
+        return False, None, mensaje
+    # Verificar si el correo ya existe
+    for player in players:
+        if player.email == correo:
+            mensaje = "El correo ya existe"
+            return False, None, mensaje
+    # Crear el administrador
+    new_admin = create_admin(name, correo, contra, admin_type)
+    return True, new_admin, "Administrador registrado exitosamente"
+
 def newUser(isadmin):
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     font = pygame.font.SysFont(None, 30)
     name = font.render("Nombre de usuario", True, (100, 100, 255))
-    Alias = font.render("Alias", True, (100, 100, 255))
-    pais = font.render("País", True, (100, 100, 255))
     correo = font.render("Correo", True, (100, 100, 255))
     contra = font.render("Contraseña", True, (100, 100, 255))
     entryname = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((68, 110), (300, 30)),
-                                                         manager=manager)
-    entryAlias = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((68, 310), (300, 30)),
-                                                         manager=manager)
-
-    paisentry = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((68, 510), (200, 30)),
-                                                      starting_option="",
-                                                      options_list=["", "Argentina", "Perú", "Uruguay", "México", "Costa Rica", "Bolivia"],
+                                                    manager=manager)
+    entrycorreo = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((68, 310), (300, 30)),
                                                       manager=manager)
-
-    entrycorreo = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((798, 110), (300, 30)),
-                                                         manager=manager)
-
-    entrycontra = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((798, 310), (300, 30)),
-                                                         manager=manager)
+    entrycontra = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((68, 510), (300, 30)),
+                                                      manager=manager)
     entrycontra.set_text_hidden()
-
     registrarse = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect(825, 550, 250, 50),
         text='Registrarse',
         manager=manager
     )
-    country = ""
+
+    if not isadmin:
+        Alias = font.render("Alias", True, (100, 100, 255))
+        pais = font.render("País", True, (100, 100, 255))
+        entryAlias = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((798, 110), (300, 30)),
+                                                         manager=manager)
+        paisentry = pygame_gui.elements.UIDropDownMenu(relative_rect=pygame.Rect((798, 310), (200, 30)),
+                                                       starting_option="",
+                                                       options_list=["", "Argentina", "Perú", "Uruguay", "México",
+                                                                     "Costa Rica", "Bolivia"],
+                                                       manager=manager)
+        country = ""
+    else:
+        # Añadir selección del tipo de administrador
+        admin_type_label = font.render("Tipo de administrador", True, (100, 100, 255))
+        admin_type_entry = pygame_gui.elements.UIDropDownMenu(
+            options_list=["", "Administrador de Control", "Administrador de Juego"],
+            starting_option="",
+            relative_rect=pygame.Rect((798, 110), (300, 30)),
+            manager=manager
+        )
+        selected_admin_type = ""
+
     reloj = pygame.time.Clock()
     ejecutando = True
     while ejecutando:
         tiempo_delta = reloj.tick(FPS) / 1000.0
-        # Manejo de eventos
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 ejecutando = False
-            if evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
+            if not isadmin and evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
                 if evento.ui_element == paisentry:
                     country = evento.text
+            if isadmin and evento.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
+                if evento.ui_element == admin_type_entry:
+                    selected_admin_type = evento.text
             if evento.type == pygame_gui.UI_BUTTON_PRESSED and evento.ui_element == registrarse:
-                resultado, tempplayer, mensaje = addplayer_ui(
-                    entryname.get_text(),
-                    entryAlias.get_text(),
-                    country,
-                    entrycorreo.get_text(),
-                    entrycontra.get_text(),
-                    isadmin
-                )
+                if isadmin:
+                    if not selected_admin_type:
+                        mostrar_ventana_advertencia(manager, "Debe seleccionar el tipo de administrador")
+                        continue
+                    resultado, tempplayer, mensaje = addplayer_admin(
+                        entryname.get_text(),
+                        entrycorreo.get_text(),
+                        entrycontra.get_text(),
+                        selected_admin_type
+                    )
+                else:
+                    resultado, tempplayer, mensaje = addplayer(
+                        entryname.get_text(),
+                        entryAlias.get_text(),
+                        country,
+                        entrycorreo.get_text(),
+                        entrycontra.get_text(),
+                        isadmin
+                    )
                 if not resultado:
                     mostrar_ventana_advertencia(manager, mensaje)
                     continue
-
                 players.append(tempplayer)
                 save_players(players)
                 manager.clear_and_reset()
@@ -131,14 +165,16 @@ def newUser(isadmin):
                     mostrar_cardsforuser(tempplayer.album, manager)
                 ejecutando = False
             manager.process_events(evento)
-        # Actualización y renderizado
         manager.update(tiempo_delta)
-        pantalla.fill((0, 25, 50))  # Fondo azul oscuro
+        pantalla.fill((0, 25, 50))
         pantalla.blit(name, name.get_rect(topleft=(70, 70)))
-        pantalla.blit(Alias, Alias.get_rect(topleft=(70, 270)))
-        pantalla.blit(pais, pais.get_rect(topleft=(70, 470)))
-        pantalla.blit(correo, correo.get_rect(topleft=(800, 70)))
-        pantalla.blit(contra, contra.get_rect(topleft=(800, 270)))
+        pantalla.blit(correo, correo.get_rect(topleft=(70, 270)))
+        pantalla.blit(contra, contra.get_rect(topleft=(70, 470)))
+        if not isadmin:
+            pantalla.blit(Alias, Alias.get_rect(topleft=(800, 70)))
+            pantalla.blit(pais, pais.get_rect(topleft=(800, 270)))
+        else:
+            pantalla.blit(admin_type_label, admin_type_label.get_rect(topleft=(800, 70)))
         manager.draw_ui(pantalla)
         pygame.display.flip()
     manager.clear_and_reset()
