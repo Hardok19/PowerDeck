@@ -1,11 +1,20 @@
-from PowerDeck.src.managers import CardDataManager
+from src.managers import CardDataManager
 
+
+# Función para verificar que un atributo es numérico
+def atributonumero(atri):
+    for i, entrada_atributo in enumerate(atri):
+        try:
+            a = int(entrada_atributo.get_text())
+        except ValueError:
+            return False
+    return True
 
 # Función para verificar que los valores de atributos estén en el rango permitido
 def rangoatributos(atri):
     """Verifica si todos los valores en la lista de atributos están en el rango de -100 a 100. """
     for i, entrada_atributo in enumerate(atri):
-        if not entrada_atributo.get_text().isnumeric():
+        if not atributonumero(atri):
             return False
 
         a = entrada_atributo.get_text()
@@ -14,10 +23,10 @@ def rangoatributos(atri):
             a = int(a)  # o float(valor) si necesitas números decimales
         except ValueError:
             a = 0  # Manejo simple de errores
-        if a not in range(-100, 100):
-
+        if a not in range(-100, 101):
             return False
-    return True
+        return True
+
 
 # Función para obtener los atributos ingresados y convertirlos en un diccionario
 def getatr(atributo_entries, atributos):
@@ -62,8 +71,9 @@ def svariant(nombrecarta):
     #Verifica si una carta ya existe en el sistema al compararla con el nombre de cartas cargadas.
     cartas = CardDataManager.cargar_cartas_desde_json()
     for cartaexiste in cartas:
-        if cartaexiste == nombrecarta:
-            return False
-    return True
+        if cartaexiste.get_nombrepersonaje() == nombrecarta:
+            return "Si"
+    return "No"
+
 
 

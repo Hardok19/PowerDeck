@@ -1,23 +1,20 @@
 import pygame
 import pygame_gui
-import PowerDeck.src.utils.ImageHandler
-from PowerDeck.src.models.Carta import Carta
-import PowerDeck.src.managers.CardDataManager
-from PowerDeck.src.logic.Cardlogic import svariant, isvalid, getatr
-from PowerDeck.src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_ventana_listo, mostrar_album
+from src.managers import CardDataManager
+from src.models.Carta import Carta
+from src.logic.Cardlogic import svariant, isvalid, getatr
+from src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_ventana_listo, mostrar_album
+from src.utils import ImageHandler
+from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CARTAS_CREADAS, album
+from src.ui.playerwindows import newUser
+from src.matchmaking.server import start_server, stop
+import threading
 
 
-
-# Definimos algunas constantes
-ANCHO_VENTANA = 1366
-ALTO_VENTANA = 720
-FPS = 60
-
-
-
+HILO4server = 1
 
 # Función para crear las entradas de atributos en la interfaz de usuario
-def crear_atributos(manager):
+def crear_atributos():
     atributos = ['Poder', 'Velocidad', 'Magia', 'Defensa', 'Inteligencia', 'Altura',
                  'Fuerza', 'Agilidad', 'Salto', 'Resistencia', 'Flexibilidad',
                  'Explosividad', 'Carisma', 'Habilidad', 'Balance', 'Sabiduría',
@@ -54,7 +51,7 @@ def crear_atributos(manager):
 
     return atributo_entries, atributos
 # Función para crear la ventana de creación de cartas
-def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
+def crear_ventana_crear_carta():
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     pygame.display.set_caption("Crear Carta")
 
@@ -105,7 +102,7 @@ def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
                                                       manager=manager)
 
     # Crear atributos y obtener sus entradas
-    atributo_entries, atributos = crear_atributos(manager)
+    atributo_entries, atributos = crear_atributos()
 
     # Botones
     boton_crear = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 500), (150, 50)),
@@ -194,7 +191,7 @@ def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
                 mostrar_ventana_listo(manager)
 
                 ejecutando = False
-                crear_ventana_crear_carta(manager, CARTAS_CREADAS)
+                crear_ventana_crear_carta()
 
 
             manager.process_events(evento)
@@ -207,7 +204,8 @@ def crear_ventana_crear_carta(manager, CARTAS_CREADAS):
         pygame.display.update()
 
 #Función para el menú de administración
-def admenu(manager, album, CARTAS_CREADAS):
+def admenu():
+    global HILO4server
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
     # Botones para las diferentes funcionalidades
     boton_crear_carta = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 50), (200, 50)),
@@ -216,6 +214,12 @@ def admenu(manager, album, CARTAS_CREADAS):
 
     boton_ver_album = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 150), (200, 50)),
                                                    text='Ver Álbum',
+                                                   manager=manager)
+    boton_crear_admin = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 250), (200, 50)),
+                                                   text='Crear Admin',
+                                                   manager=manager)
+    boton_matchmaking = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 350), (200, 50)),
+                                                   text='Start matchmaking',
                                                    manager=manager)
 
     reloj = pygame.time.Clock()
@@ -226,26 +230,99 @@ def admenu(manager, album, CARTAS_CREADAS):
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
+                if HILO4server.is_alive():
+                    stop()
                 ejecutando = False
                 manager.clear_and_reset()
             if evento.type == pygame_gui.UI_BUTTON_PRESSED:
                 if evento.ui_element == boton_crear_carta:
                     manager.clear_and_reset()
-                    crear_ventana_crear_carta(manager, CARTAS_CREADAS)
+                    crear_ventana_crear_carta()
                     ejecutando = False
-                    admenu(manager, album, CARTAS_CREADAS)
+                    admenu()
                 elif evento.ui_element == boton_ver_album:
                     album.clean()
                     album.getcartascreadas()
                     mostrar_album(album)
+                elif evento.ui_element == boton_crear_admin:
+                    manager.clear_and_reset()
+                    newUser(True)
+                    ejecutando = False
+                    admenu()
+                elif evento.ui_element == boton_matchmaking:
+                    HILO4server = threading.Thread(target=start_server, args=(5555,))
+                    HILO4server.start()
+                    boton_matchmaking.kill()
+                    mostrar_ventana_advertencia(manager, "Server de matchmaking iniciado")
 
             manager.process_events(evento)
 
         manager.update(tiempo_delta)
-
         pantalla.fill((0,25, 50))  # Fondo negro
         manager.draw_ui(pantalla)
-
         pygame.display.update()
 
+def admenu_control():
+    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+    # Botones para Administrador de Control
+    boton_reportes = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 50), (200, 50)),
+                                                  text='Ver Reportes',
+                                                  manager=manager)
+    boton_gestion_jugadores = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 150), (200, 50)),
+                                                           text='Gestión de Jugadores',
+                                                           manager=manager)
+    reloj = pygame.time.Clock()
+    ejecutando = True
+    while ejecutando:
+        tiempo_delta = reloj.tick(FPS) / 1000.0
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                ejecutando = False
+                manager.clear_and_reset()
+            if evento.type == pygame_gui.UI_BUTTON_PRESSED:
+                if evento.ui_element == boton_reportes:
+                    mostrar_ventana_advertencia(manager, "Funcionalidad de Reportes no implementada")
+                elif evento.ui_element == boton_gestion_jugadores:
+                    mostrar_ventana_advertencia(manager, "Funcionalidad de Gestión de Jugadores no implementada")
+            manager.process_events(evento)
+        manager.update(tiempo_delta)
+        pantalla.fill((0, 25, 50))
+        manager.draw_ui(pantalla)
+        pygame.display.update()
 
+def admenu_game():
+    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+    # Botones para Administrador de Juego
+    boton_crear_carta = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((50, 50), (200, 50)),
+        text='Crear Carta',
+        manager=manager
+    )
+    boton_ver_album = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((50, 150), (200, 50)),
+        text='Ver Álbum',
+        manager=manager
+    )
+    reloj = pygame.time.Clock()
+    ejecutando = True
+    while ejecutando:
+        tiempo_delta = reloj.tick(FPS) / 1000.0
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                ejecutando = False
+                manager.clear_and_reset()
+            if evento.type == pygame_gui.UI_BUTTON_PRESSED:
+                if evento.ui_element == boton_crear_carta:
+                    manager.clear_and_reset()
+                    crear_ventana_crear_carta()
+                    ejecutando = False
+                    admenu_game()
+                elif evento.ui_element == boton_ver_album:
+                    album.clean()
+                    album.getcartascreadas()
+                    mostrar_album(album)
+            manager.process_events(evento)
+        manager.update(tiempo_delta)
+        pantalla.fill((0, 25, 50))
+        manager.draw_ui(pantalla)
+        pygame.display.update()

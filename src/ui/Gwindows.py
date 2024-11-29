@@ -1,20 +1,19 @@
 import pygame
 import pygame_gui
 
+from src.managers.playerDataManager import save_players
+from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CARTAS_CREADAS, album, players
 
-# Definimos algunas constantes
-ANCHO_VENTANA = 1366
-ALTO_VENTANA = 720
-FPS = 60
 
 # Función para mostrar una ventana de advertencia con un mensaje personalizado
 def mostrar_ventana_advertencia(manager, mensaje):
     ventana_advertencia = pygame_gui.windows.UIMessageWindow(
-        rect=pygame.Rect((500, 300), (300, 200)),  # Tamaño y posición de la ventana
+        rect=pygame.Rect((500, 300), (300, 200)),
         html_message=f'<b>{mensaje}</b>',
         manager=manager,
         window_title="Advertencia"
-)
+    )
+    return ventana_advertencia  # Ahora devuelve el objeto de la ventana
 
 # Función para mostrar una ventana de confirmación de éxito
 def mostrar_ventana_listo(manager):
@@ -26,8 +25,8 @@ def mostrar_ventana_listo(manager):
     )
 
 # Función para mostrar el álbum de cartas con imágenes, con botón de alternar variantes
-def mostrar_album(album):
-    album.sorter()  # Ordenar cartas por nombre
+def mostrar_album(albumm):
+    albumm.sorter()  # Ordenar cartas por nombre
     mostrar_variantes = True  # Inicialmente no mostrar variantes
 
     pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
@@ -52,7 +51,7 @@ def mostrar_album(album):
 
     # Obtener las cartas al principio
     try:
-        cartas_a_mostrar = album.obtener_cartas()
+        cartas_a_mostrar = albumm.obtener_cartas()
         if not mostrar_variantes:
             cartas_a_mostrar = [carta for carta in cartas_a_mostrar if carta.es_variante == "No"]
     except Exception as e:
@@ -85,7 +84,7 @@ def mostrar_album(album):
                     mostrar_variantes = not mostrar_variantes  # Alternar el estado de mostrar_variantes
                     # Actualizar las cartas a mostrar según el estado del botón
                     try:
-                        cartas_a_mostrar = album.obtener_cartas()
+                        cartas_a_mostrar = albumm.obtener_cartas()
                         if not mostrar_variantes:
                             cartas_a_mostrar = [carta for carta in cartas_a_mostrar if carta.es_variante == "No"]
                     except Exception as e:
@@ -164,3 +163,4 @@ def mostrar_album(album):
                          (scrollbar_pos_x, scrollbar_pos_y, scrollbar_width, scrollbar_altura))
 
         pygame.display.update()
+
