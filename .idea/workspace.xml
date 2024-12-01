@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff8f3ceb-be45-47ed-9b6b-13d43766aa42" name="Changes" comment="Se arregló el error cuando no se encuentran oponentes" />
+    <list default="true" id="ff8f3ceb-be45-47ed-9b6b-13d43766aa42" name="Changes" comment="Se arregló el error cuando no se encuentran oponentes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/matchmaking/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/matchmaking/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/matchmaking/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/matchmaking/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/adminwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/adminwindows.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +60,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;Separar-interfaz-y-logica&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Usuario/PycharmProjects/PowerDeck&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/PD2/2/PowerDeck&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -71,18 +76,17 @@
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="PowerDeck" />
-      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="C:\Users\Hardok\AppData\Local\Programs\Python\Python311\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -155,8 +159,5 @@
     <MESSAGE value="En playerwindows tendrá el código relacionado con la interfaz gráfica y eventos de usuario y en playerlogic tendrá toda la lógica relacionada con la validación de datos, creación de objetos, asignación de cartas, etc." />
     <MESSAGE value="Se arregló el error cuando no se encuentran oponentes" />
     <option name="LAST_COMMIT_MESSAGE" value="Se arregló el error cuando no se encuentran oponentes" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PowerDeck$main.coverage" NAME="main Coverage Results" MODIFIED="1732784367033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>

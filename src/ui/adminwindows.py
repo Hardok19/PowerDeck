@@ -250,7 +250,7 @@ def admenu():
                     ejecutando = False
                     admenu()
                 elif evento.ui_element == boton_matchmaking:
-                    HILO4server = threading.Thread(target=start_server, args=(5555,))
+                    HILO4server = threading.Thread(target=start_server)
                     HILO4server.start()
                     boton_matchmaking.kill()
                     mostrar_ventana_advertencia(manager, "Server de matchmaking iniciado")

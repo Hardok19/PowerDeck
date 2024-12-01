@@ -34,6 +34,7 @@ def connect_to_peer(key, server_ip, server_port=SERVER_PORT, max_wait_time=MAX_W
         except socket.timeout:
             if time.time() - start_time > max_wait_time:
                 print("No se encontraron oponentes.")
+                client.sendto("cleanthis".encode(), (server_ip, server_port))
                 return None, None
             pass
 
