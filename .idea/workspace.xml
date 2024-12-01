@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff8f3ceb-be45-47ed-9b6b-13d43766aa42" name="Changes" comment="Se arregló el error cuando no se encuentran oponentes">
+      <change beforePath="$PROJECT_DIR$/.idea/PowerDeck.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PowerDeck.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/matchmaking/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/matchmaking/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/matchmaking/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/matchmaking/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/cards.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/cards.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/players.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logic/Cardlogic.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/Cardlogic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logic/playerlogic.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/playerlogic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/managers/CardDataManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/managers/CardDataManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/Gwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Gwindows.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/adminwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/adminwindows.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/playerwindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/playerwindows.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

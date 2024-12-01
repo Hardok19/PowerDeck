@@ -45,7 +45,6 @@ def guardar_cartas_en_json(cartas):
 
         }
 
-
         cartas_a_guardar.append(temp)
 
     # Guarda la lista de cartas en formato JSON en el archivo especificado

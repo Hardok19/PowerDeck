@@ -409,6 +409,31 @@ def playermenu(player, indexP, manager, players):
         pygame.display.flip()
     manager.clear_and_reset()
 
+
+def game_window():
+    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+    pygame.display.set_caption("Juego")
+    reloj = pygame.time.Clock()
+    ejecutando = True
+    while ejecutando:
+        tiempo_delta = reloj.tick(FPS) / 1000.0
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                ejecutando = False
+            elif evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_SPACE:
+                    # Enviar mensaje al otro jugador
+                    client.sendto("¡Hola desde el juego!".encode(), peer_address)
+            # Aquí puedes manejar otros eventos del juego
+        # Actualizar el estado del juego
+        # Renderizar el juego
+        pantalla.fill((15, 15, 25))  # Fondo negro
+        # Dibujar elementos del juego aquí
+        pygame.display.flip()
+    # Al salir del bucle, cerrar socket y finalizar hilos
+    client.close()
+    pygame.quit()
+
 # Variable para controlar el mensaje de estado
 mensaje = "Buscando partida..."  # Mensaje inicial
 partida_encontrada = threading.Event()  # Evento para detectar cuando se encuentre la partida
@@ -455,26 +480,3 @@ def buscandomatch():
         manager.draw_ui(pantalla)
         pygame.display.flip()
 
-def game_window():
-    pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
-    pygame.display.set_caption("Juego")
-    reloj = pygame.time.Clock()
-    ejecutando = True
-    while ejecutando:
-        tiempo_delta = reloj.tick(FPS) / 1000.0
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                ejecutando = False
-            elif evento.type == pygame.KEYDOWN:
-                if evento.key == pygame.K_SPACE:
-                    # Enviar mensaje al otro jugador
-                    client.sendto("¡Hola desde el juego!".encode(), peer_address)
-            # Aquí puedes manejar otros eventos del juego
-        # Actualizar el estado del juego
-        # Renderizar el juego
-        pantalla.fill((0, 0, 0))  # Fondo negro
-        # Dibujar elementos del juego aquí
-        pygame.display.flip()
-    # Al salir del bucle, cerrar socket y finalizar hilos
-    client.close()
-    pygame.quit()
