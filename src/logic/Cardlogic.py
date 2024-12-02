@@ -1,4 +1,5 @@
 from src.managers import CardDataManager
+from src.ui.windowsconfig import CARTAS_CREADAS
 
 
 # Función para verificar que un atributo es numérico
@@ -75,5 +76,12 @@ def svariant(nombrecarta):
             return "Si"
     return "No"
 
+def savecard(nuevacarta):
+    # Guardar cartas
+    CARTAS_CREADAS.append(nuevacarta)
+    print(f"Carta creada: {nuevacarta}")
+    CardDataManager.guardar_cartas_en_json(CARTAS_CREADAS)
 
+def generarcartas(album, cantidad_cartas):
+    return CardDataManager.asignar_cartas_iniciales(album, cantidad_cartas=cantidad_cartas)
 

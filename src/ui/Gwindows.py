@@ -5,6 +5,7 @@ from src.managers.playerDataManager import save_players
 from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CARTAS_CREADAS, album, players
 
 
+
 # Función para mostrar una ventana de advertencia con un mensaje personalizado
 def mostrar_ventana_advertencia(manager, mensaje):
     ventana_advertencia = pygame_gui.windows.UIMessageWindow(

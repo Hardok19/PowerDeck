@@ -11,6 +11,7 @@ connections = {}  # Diccionario para almacenar conexiones pendientes
 stophilo = False
 server = None
 
+
 def start_server():
     """
     Inicia el servidor de emparejamiento.
@@ -29,6 +30,18 @@ def start_server():
             data, addr = server.recvfrom(RECV_BUFFER_SIZE)
             key = data.decode()
 
+            if key == "cleanthis":
+                # Eliminar la entrada del cliente actual si existe
+                if addr in connections.values():
+                    # Encontrar la clave asociada a la dirección y eliminarla
+                    key_to_remove = [k for k, v in connections.items() if v == addr]
+                    for k in key_to_remove:
+                        del connections[k]
+                    print(f"Dirección {addr} eliminada de las conexiones.")
+                else:
+                    print(f"No se encontró la dirección {addr} en las conexiones.")
+                continue
+
             if key in connections:
                 # Emparejar con un cliente existente
                 peer_addr = connections.pop(key)
@@ -46,6 +59,7 @@ def start_server():
             print(f"Error del socket: {e}")
             break
 
+
 def stop():
     """
     Detiene el servidor de emparejamiento.
@@ -57,3 +71,5 @@ def stop():
     if server:
         server.close()
         print("Servidor detenido.")
+
+

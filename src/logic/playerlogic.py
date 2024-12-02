@@ -1,6 +1,6 @@
 import re
 from src.models.player import player
-from src.managers.CardDataManager import asignar_cartas_iniciales
+from src.logic.Cardlogic import generarcartas
 from src.models.Album import playerAlbum
 
 def validate_player_data(name, alias, pais, correo, contra, isadmin):
@@ -31,7 +31,7 @@ def validate_player_data(name, alias, pais, correo, contra, isadmin):
 
 def create_player(name, alias, pais, correo, contra, album, isadmin, cantidad_cartas):
     # Asignación de cartas iniciales
-    cartas_iniciales = asignar_cartas_iniciales(album, cantidad_cartas=cantidad_cartas)
+    cartas_iniciales = generarcartas(album, cantidad_cartas)
     albumplayer = playerAlbum(0)
     if not isadmin:
         # Agregar las cartas iniciales al álbum del jugador

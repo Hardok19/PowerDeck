@@ -1,8 +1,7 @@
 import pygame
 import pygame_gui
-from src.managers import CardDataManager
 from src.models.Carta import Carta
-from src.logic.Cardlogic import svariant, isvalid, getatr
+from src.logic.Cardlogic import svariant, isvalid, getatr, savecard
 from src.ui.Gwindows import mostrar_ventana_advertencia, mostrar_ventana_listo, mostrar_album
 from src.utils import ImageHandler
 from src.ui.windowsconfig import ANCHO_VENTANA, ALTO_VENTANA, FPS, manager, CARTAS_CREADAS, album
@@ -182,10 +181,8 @@ def crear_ventana_crear_carta():
                     atributos=atributos_ingresados  # Asignar atributos ingresados
                 )
 
-                #Guardar cartas
-                CARTAS_CREADAS.append(nueva_carta)
-                print(f"Carta creada: {nueva_carta}")
-                CardDataManager.guardar_cartas_en_json(CARTAS_CREADAS)
+
+                savecard(nueva_carta)
 
                 #Mostar ventana para notificar el exito en la creacion
                 mostrar_ventana_listo(manager)
@@ -250,7 +247,7 @@ def admenu():
                     ejecutando = False
                     admenu()
                 elif evento.ui_element == boton_matchmaking:
-                    HILO4server = threading.Thread(target=start_server, args=(5555,))
+                    HILO4server = threading.Thread(target=start_server)
                     HILO4server.start()
                     boton_matchmaking.kill()
                     mostrar_ventana_advertencia(manager, "Server de matchmaking iniciado")
